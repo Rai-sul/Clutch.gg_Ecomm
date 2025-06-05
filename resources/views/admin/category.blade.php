@@ -89,6 +89,7 @@
                     <tr>
                         <td>{{ $dataa->category_name }}</td>
                         <td><a class="btn btn-danger" onclick="confirmation(event)" href="{{url('delete_category',$dataa->id)}}">Delete</a></td>
+                        <td><a class="btn btn-secondary" href="{{url('edit_category',$dataa->id)}}">Edit</a></td>
                 
                     </tr>
                     @endforeach
