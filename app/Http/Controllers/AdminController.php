@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -15,15 +17,26 @@ class AdminController extends Controller
             if ($usertype == 'admin') {
                 return view('admin.index');
             } else if ($usertype == 'user') {
-                return view('dashboard');
+                // Redirect to user home if the user is logged in
+                $products = Product::all(); // Fetch products with pagination
+                return view('home.index', compact('products'));
+
+                // return view('home.index');
             } else {
                 return redirect()->back();
             }
         }
+        return redirect('login');
     }
 
     public function user()
     {
-        return view('home.index');
+        if(!Auth::check())
+        {
+            return redirect('login');
+        }
+        $products = Product::all();
+        return view('home.index', compact('products'));
+        
     }
 }

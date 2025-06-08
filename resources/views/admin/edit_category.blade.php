@@ -1,24 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- @include('admin.css') -->
-    <style type="text/css">
-        input[type='text'] {
-            width: 400px;
-            height: 50px;
-        }
-
-        .div_deg {
-            display: flex;
-            justify-content: left;
-            align-items: left;
-            margin: 30px;
-        }
-        .div_deg input[type="text"] {
-            width: 400px;
-            height: 50px;
-        }
-    </style>
+    @include('admin.css')
 </head>
 <body>
     @include('admin.header')
