@@ -23,11 +23,13 @@
             <!-- Log out               -->
             <div class="list-inline-item logout">                   
                 
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <input type="submit" value="Logout">
+              <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button class="btn btn-outline-light me-2" type="submit">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                  </button>
 
-                    </form>
+              </form>
         
         </div>
           </div>

@@ -1,13 +1,6 @@
-<header class="header_section">
+<!-- <header class="header_section">
   <nav class="navbar navbar-expand-lg custom_nav-container ">
-    <a class="navbar-brand" href="index.html">
-      <span>
-        Clutch.gg
-      </span>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class=""></span>
-    </button>
+
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
@@ -72,4 +65,86 @@
       </div>
     </div>
   </nav>
+</header> -->
+
+
+
+
+
+
+
+@include('home.css')
+
+<header class="header-section">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      
+     
+      
+      
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">
+               Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="shop.html">
+               Shop
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="why.html">
+              Why Us
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">
+              Contact
+            </a>
+          </li>
+        </ul>
+
+        
+        <form class="search-form me-3 d-flex">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search..." > 
+              
+            <button class="btn btn-search" type="submit">
+              <i class="fas fa-search"></i>
+              
+            </button>
+          </div>
+        </form>
+
+
+          
+        @if (Route::has('login'))
+          @auth
+            <a href="#">
+              <i class="fa fa-shopping-bag" style="color: white; padding: 20px;"
+                aria-hidden="true"></i>   
+                <span style="color: white;">{{ $count }}</span>
+
+            </a>
+
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn btn-outline-light me-2" type="submit">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+              </form>
+          @else
+            <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">
+              <i class="fas fa-sign-in-alt me-1"></i> Login
+            </a>
+            <a href="{{ url('/register') }}" class="btn btn-primary">
+              <i class="fas fa-user-plus me-1"></i> Register
+            </a>
+          @endauth
+        @endif
+      
+</nav>
 </header>
+
+

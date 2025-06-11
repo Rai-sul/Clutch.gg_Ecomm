@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeController;
 
 
 route::get('/', [AdminController::class, 'user'])->name('user');
-route::get('/home', [AdminController::class, 'index'])->name('home');
+route::get('/home', [AdminController::class, 'index'])->name('index')->middleware('auth', 'verified');
 
 
 route::get('view_category', [HomeController::class, 'view_category'])->name('view_category');
@@ -21,4 +21,5 @@ route::get('view_products', [HomeController::class, 'view_products'])->name('vie
 route::get('delete_product/{id}', [HomeController::class, 'delete_product'])->name('delete_product');
 route::get('edit_product/{id}', [HomeController::class, 'edit_product'])->name('edit_product');
 route::post('update_product/{id}', [HomeController::class, 'update_product'])->name('update_product');
-route::get('p_image/{id}', [HomeController::class, 'p_image'])->name('p_image');
+route::get('product_details/{id}', [HomeController::class, 'product_details'])->name('product_details');
+route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->name('add_cart')->middleware('auth', 'verified');

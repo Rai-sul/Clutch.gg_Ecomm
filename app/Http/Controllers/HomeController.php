@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\category;
 use App\Models\Product;
 use App\Models\ProductImages;
+use App\Models\User;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -20,13 +23,8 @@ class HomeController extends Controller
         $category = new category;
         $category->category_name = $request->category;
         $category->save();
-
-        
-
         notyf()->success('Category Added Successfully.');
-
         return redirect()->back();
-
     }
 
     public function delete_category($id){
@@ -72,32 +70,35 @@ class HomeController extends Controller
         $product->price = $request->price;
         $product->category = $request->category;
         $product->quantity = $request->qty;
-
         $product->save();
 
-        // ✅ Handle image upload based on number of files
+
+//================================= For Images //=================================
+        // ✅ Handle image upload
         if ($request->hasFile('images')) {
             $images = $request->file('images');
+            $firstImagePath = null;
 
-            // If only 1 image uploaded, save to product table
-            if (count($images) === 1) {
-                $image = $images[0];
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('product'), $imageName);
-                $product->image =asset('product/' .$imageName);
-                $product->save(); // Update product with main image
-            } 
-            // If more than 1 image uploaded, save all to product_images table
-            else {
-                foreach ($images as $file) {
-                    $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('product_images'), $imageName);
+            foreach ($images as $index => $file) {
+                $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('product_images'), $imageName);
+                $imagePath = 'product_images/' . $imageName;
 
-                    ProductImages::create([
-                        'product_id' => $product->id,
-                        'image_path' => 'product_images/' . $imageName,
-                    ]);
+                // Save each image in ProductImages table
+                ProductImages::create([
+                    'product_id' => $product->id,
+                    'image_path' => $imagePath,
+                ]);
+
+                // Save first image to Product table
+                if ($index === 0) {
+                    $firstImagePath = asset($imagePath);
                 }
+            }
+
+            if ($firstImagePath) {
+                $product->image = $firstImagePath;
+                $product->save();
             }
         }
 
@@ -105,14 +106,25 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function p_image($id)
+//================================= For Images //=================================
+
+
+    public function product_details($id)
     {
             // $product_img = ProductImages::find($id);
         
             $images = ProductImages::where('product_id', $id)->get();
+            $data = Product::find($id);
+            if(Auth::id()) {
+            $user = Auth::user();
+            $userid = $user->id;
+            $count = Cart::where('user_id', $userid)->count();
+        } else {
+            $count = 0; // If not authenticated, set count to 0
+        }
             if($images)
             {
-                return view('home.pic_image', compact( 'images'));
+                return view('home.product_details', compact( 'images', 'count', 'data'));
             }
             else
             {
@@ -186,5 +198,19 @@ class HomeController extends Controller
         return redirect()->route('view_products');
     }
 
-}
+    public function add_cart($id)
+    {
+        $product_id = $id;
 
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $data = new Cart;
+        $data->user_id = $user_id;
+        $data->product_id = $product_id;
+        $data->save();
+        notyf()->success('Product Added To Cart Successfully.');
+        return redirect()->back();
+    }
+
+}
