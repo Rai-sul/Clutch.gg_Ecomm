@@ -84,7 +84,7 @@
       
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="index.html">
+            <a class="nav-link active" href="home">
                Home
             </a>
           </li>
@@ -121,7 +121,15 @@
           
         @if (Route::has('login'))
           @auth
-            <a href="#">
+
+            <a href="{{ url('myorder') }}">
+              <i class="fa fa-shopping-bag" style="color: white; padding: 20px;"
+                aria-hidden="true"></i>   
+                My Orders
+                <!-- <span style="color: white;">{{ $count }}</span> -->
+
+            </a>
+            <a href="{{ url('mycart') }}">
               <i class="fa fa-shopping-bag" style="color: white; padding: 20px;"
                 aria-hidden="true"></i>   
                 <span style="color: white;">{{ $count }}</span>

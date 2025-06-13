@@ -483,6 +483,38 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+
+    /* place order button */
+    .order-button-wrapper {
+    text-align: center;
+    margin: 40px 0;
+    }
+
+    .order-button {
+        background: #f05454 ;
+        color: #fff;
+        border: none;
+        padding: 16px 40px;
+        font-size: 1.2rem;
+        font-weight: 500;
+        border-radius: 50px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .order-button:hover {
+        background: #d93b3b;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .order-button:active {
+        transform: translateY(0);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
     </style>
 
 

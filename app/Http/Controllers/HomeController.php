@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImages;
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -211,6 +212,90 @@ class HomeController extends Controller
         $data->save();
         notyf()->success('Product Added To Cart Successfully.');
         return redirect()->back();
+    }
+
+    public function mycart()
+    {
+        if (Auth::id()) {
+            $userid = Auth::user()->id;
+            $cart = Cart::where('user_id', $userid)->get();
+            $count = Cart::where('user_id', $userid)->count();
+            return view('home.mycart', compact('cart', 'count'));
+        } else {
+            notyf()->error('You need to login first.');
+            return redirect()->route('user');
+        }
+    }
+    public function remove_cart($id)
+    {
+        $cart = Cart::find($id);
+        if ($cart) {
+            $cart->delete();
+            notyf()->warning('Product Removed From your Cart.');
+        } else {
+            notyf()->error('Cart Item Not Found.');
+        }
+        return redirect()->back();
+    }
+
+    public function confirm_order(Request $request)
+    {
+        $name= $request->name;
+        $phone= $request->phone;
+        $address= $request->address;
+
+        $userid = Auth::user()->id;
+        $cart = Cart::where('user_id', $userid)->get();
+        foreach ($cart as $item) {
+            $order = new Order;
+            $order->name = $name;
+            $order->phone = $phone;
+            $order->rec_address = $address;
+            $order->user_id = $userid;
+            $order->product_id = $item->product_id;
+            $order->status = 'in progress';
+            $order->save();
+        }
+        $remove_cart = Cart::where('user_id', $userid)->get();
+        foreach ($remove_cart as $item) {
+            $data = Cart::find($item->id);
+            $data->delete();
+        }
+        notyf()->success('Order Confirmed Successfully.');
+        notyf()->warning('Thanks For Purchasing MY LOVEE!');
+        return redirect()->back();
+    }
+
+    public function view_order()
+    {
+        $data= Order::all();
+        return view('admin.view_order', compact('data'));
+    }
+
+    public function on_the_way($id)
+    {
+        $data = Order::find($id);
+        $data->status = 'On the way';
+        $data->save();
+        notyf()->success('Order Status Updated to On the way.');
+        return redirect('view_order');
+    }
+
+    public function delivered($id)
+    {
+        $data = Order::find($id);
+        $data->status = 'Delivered';
+        $data->save();
+        notyf()->success('Order Status Updated to Delivered.');
+        return redirect('view_order');
+    }
+
+    public function myorder()
+    {
+        $userid = Auth::user()->id;
+        $orders = Order::where('user_id', $userid)->get();
+        $count = Cart::where('user_id', $userid)->get()->count();
+        return view('home.myorder', compact('orders','count'));   
     }
 
 }

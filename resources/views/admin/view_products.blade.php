@@ -10,11 +10,13 @@
         <div class="page-header">
             <div class="container-fluid">
                 <h1 style="color: #F08080">View Products</h1>
-                
-                <div class="dev_design"></div>
-                <div>
-                    <input type="search" name="search">
-                    <input type="submit" name="submit" value="Search">
+                           
+                <div class="dev_design">
+                    <div>
+                        <input type="text" name="search">
+                        <input type="submit" name="submit" value="Search" class="btn btn-primary">    
+                    </div>
+                    
                 </div>
                 <br><br>
                 <table class="tbl-full">
@@ -49,7 +51,7 @@
                     @endforeach
 
                 </table>
-                <div class="div_deg">
+                <div>
                     {{ $products->links() }}
                 </div>
             </div>
