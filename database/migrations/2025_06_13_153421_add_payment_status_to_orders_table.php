@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->string('product_id');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('payment_status')->after('product_id')->default('Cash On Delivery');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('payment_status');
+        });
     }
 };

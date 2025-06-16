@@ -22,11 +22,15 @@ route::get('delete_product/{id}', [HomeController::class, 'delete_product'])->na
 route::get('edit_product/{id}', [HomeController::class, 'edit_product'])->name('edit_product');
 route::post('update_product/{id}', [HomeController::class, 'update_product'])->name('update_product');
 route::get('product_details/{id}', [HomeController::class, 'product_details'])->name('product_details');
-route::get('add_cart/{id}', [HomeController::class, 'add_cart'])->name('add_cart')->middleware('auth', 'verified');
-route::get('mycart', [HomeController::class, 'mycart'])->name('mycart')->middleware('auth', 'verified');
+route::get('add_cart/{id}', [HomeController::class, 'add_cart']);
+route::get('mycart', [HomeController::class, 'mycart'])->name('mycart');
 route::get('remove_cart/{id}', [HomeController::class, 'remove_cart'])->name('remove_cart');
 route::post('confirm_order', [HomeController::class, 'confirm_order'])->name('confirm_order');
 route::get('view_order', [HomeController::class, 'view_order'])->name('view_order')->middleware('auth', 'verified');
 route::get('on_the_way/{id}', [HomeController::class, 'on_the_way'])->name('on_the_way');
 route::get('delivered/{id}', [HomeController::class, 'delivered'])->name('delivered');
 route::get('myorder', [HomeController::class, 'myorder'])->name('myorder');
+route::post('confirm_detail', [HomeController::class, 'confirm_detail'])->name('confirm_detail');
+route::get('myorder_verfy', [HomeController::class, 'myorder_verfy'])->name('myorder_verfy');
+route::post('verify_order', [HomeController::class, 'verify_order'])->name('verify_order');
+route::get('category_product/{category_name}', [AdminController::class, 'category_product'])->name('category_product');

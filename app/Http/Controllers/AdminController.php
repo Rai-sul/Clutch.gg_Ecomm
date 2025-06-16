@@ -6,6 +6,7 @@ use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\category;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,13 +25,8 @@ class AdminController extends Controller
             } else {
                 // Redirect to user home if the user is logged in
                 $products = Product::all();
-                if (Auth::id()){
-                    $user = Auth::user();
-                    $userid = $user->id;
-                    $count = Cart::where('user_id',$userid)->count();
-                } else {
-                    $count = 0; // If not authenticated, set count to 0     
-                }
+                
+                $count = Cart::all()->count();
                 return view('home.index', compact('products', 'count'));
             }
         }
@@ -40,13 +36,18 @@ class AdminController extends Controller
     public function user()
     {
         $products = Product::all();
-        if(Auth::id()) {
-            $user = Auth::user();
-            $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
-        } else {
-            $count = 0; // If not authenticated, set count to 0
-        }
-        return view('home.index', compact('products', 'count'));
+        $categories = category::all();
+        $count = Cart::where('sessionId', session()->getId())->count();
+         
+        return view('home.index', compact('products', 'categories', 'count'));
+    }
+
+    public function category_product($category_name)
+    {
+        $products = Product::where('category', $category_name)->get();
+        $count = Cart::where('sessionId', session()->getId())->count();
+
+        return view('home.category_product', compact('products', 'count'));
+ 
     }
 }

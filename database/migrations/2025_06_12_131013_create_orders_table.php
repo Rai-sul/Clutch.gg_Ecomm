@@ -17,10 +17,9 @@ return new class extends Migration
             $table->string('rec_address')->nullable();
             $table->string('phone')->nullable();
             $table->string('status')->nullable();
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
             $table->timestamps();
         });

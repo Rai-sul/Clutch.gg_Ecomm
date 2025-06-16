@@ -16,38 +16,70 @@ class HomeController extends Controller
     public function view_category()
     {
         $data = category::all();
-        return view('admin.category',compact('data'));
+        return view('admin.category', compact('data'));
     }
 
     public function add_category(Request $request)
+{
+    // Create category first (without image)
+    $category = new Category;
+    $category->category_name = $request->category;
+    $category->save();  // Save first to get ID
+
+    // Check if files exist
+    if ($request->hasFile('images')) {
+        $images = $request->file('images');
+        $firstImagePath = null;
+
+        foreach ($images as $index => $file) {
+            $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('category_images'), $imageName);
+            $imagePath = 'category_images/' . $imageName;
+
+
+            // First image path
+            if ($index === 0) {
+                $firstImagePath = $imagePath;
+            }
+        }
+
+        // Save first image path to category table
+        if ($firstImagePath) {
+            $category->image = $firstImagePath;
+            $category->save(); // update after first image path is ready
+        }
+    }
+
+    notyf()->success('Category Added Successfully.');
+    return redirect()->back();
+    }
+
+
+    public function delete_category($id)
     {
-        $category = new category;
-        $category->category_name = $request->category;
-        $category->save();
-        notyf()->success('Category Added Successfully.');
+        $data = category::find($id);
+        if ($data) {
+            $data->delete();
+            $image_path = public_path($data->image);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+            notyf()->warning('Category Deleted Successfully.');
+        } else {
+            notyf()->error('Category Not Found.');
+        }
         return redirect()->back();
     }
 
-    public function delete_category($id){
-
-        $data = category :: find($id);
-        $data->delete();
-
-        notyf()->warning('Category Deleted Successfully.');
-
-        return redirect()->back();
-    }
-
-
-    public function edit_category($id){
-
-        $data = category :: find($id);
+    public function edit_category($id)
+    {
+        $data = category::find($id);
         return view('admin.edit_category', compact('data'));
     }
 
-    public function update_category(Request $request, $id){
-
-        $data = category :: find($id);
+    public function update_category(Request $request, $id)
+    {
+        $data = category::find($id);
         $data->category_name = $request->category;
         $data->save();
 
@@ -59,9 +91,8 @@ class HomeController extends Controller
     public function add_product()
     {
         $category = category::all();
-        return view('admin.add_product',compact('category'));
+        return view('admin.add_product', compact('category'));
     }
-
 
     public function upload_product(Request $request)
     {
@@ -73,8 +104,7 @@ class HomeController extends Controller
         $product->quantity = $request->qty;
         $product->save();
 
-
-//================================= For Images //=================================
+        //================================= For Images //=================================
         // ✅ Handle image upload
         if ($request->hasFile('images')) {
             $images = $request->file('images');
@@ -107,35 +137,23 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-//================================= For Images //=================================
-
-
     public function product_details($id)
     {
-            // $product_img = ProductImages::find($id);
+        // $product_img = ProductImages::find($id);
+    
+        $images = ProductImages::where('product_id', $id)->get();
+        $data = Product::find($id);
+        $count = Cart::where('sessionId', session()->getId())->count();
         
-            $images = ProductImages::where('product_id', $id)->get();
-            $data = Product::find($id);
-            if(Auth::id()) {
-            $user = Auth::user();
-            $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+        // If not authenticated, set count to 0
+    
+        if ($images) {
+            return view('home.product_details', compact('images', 'count', 'data'));
         } else {
-            $count = 0; // If not authenticated, set count to 0
+            notyf()->error('No images found for this product.');
+            return redirect()->back();
         }
-            if($images)
-            {
-                return view('home.product_details', compact( 'images', 'count', 'data'));
-            }
-            else
-            {
-                notyf()->error('No images found for this product.');
-                return redirect()->back();
-            }
-            
-        
     }
-
 
     public function view_products()
     {
@@ -203,72 +221,97 @@ class HomeController extends Controller
     {
         $product_id = $id;
 
-        $user = Auth::user();
-        $user_id = $user->id;
+        // Reduce product quantity
+        $product = Product::find($product_id);
+        if ($product->quantity <= 0) {
+            notyf()->error('Out of stock.');
+            return redirect()->back();
+        }
+
+        $product->quantity -= 1;
+        $product->save();
+
+        $sessionId = session()->getId();
 
         $data = new Cart;
-        $data->user_id = $user_id;
+        $data->sessionId = $sessionId;
         $data->product_id = $product_id;
         $data->save();
+
         notyf()->success('Product Added To Cart Successfully.');
         return redirect()->back();
     }
 
     public function mycart()
     {
-        if (Auth::id()) {
-            $userid = Auth::user()->id;
-            $cart = Cart::where('user_id', $userid)->get();
-            $count = Cart::where('user_id', $userid)->count();
-            return view('home.mycart', compact('cart', 'count'));
-        } else {
-            notyf()->error('You need to login first.');
-            return redirect()->route('user');
-        }
+        $sessionId = session()->getId();
+
+        $cart = Cart::where('sessionId', $sessionId)->get();
+        $count = Cart::where('sessionId', $sessionId)->count();
+
+        return view('home.mycart', compact('cart', 'count'));
     }
+
     public function remove_cart($id)
     {
-        $cart = Cart::find($id);
+        $sessionId = session()->getId();
+
+        $cart = Cart::where('id', $id)->where('sessionId', $sessionId)->first();
+
         if ($cart) {
+            $product = Product::find($cart->product_id);
+            if ($product) {
+                $product->quantity += 1;
+                $product->save();
+            }
             $cart->delete();
             notyf()->warning('Product Removed From your Cart.');
         } else {
             notyf()->error('Cart Item Not Found.');
         }
+
         return redirect()->back();
     }
 
     public function confirm_order(Request $request)
     {
-        $name= $request->name;
-        $phone= $request->phone;
-        $address= $request->address;
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
 
-        $userid = Auth::user()->id;
-        $cart = Cart::where('user_id', $userid)->get();
+        $sessionId = session()->getId();
+        $cart = Cart::where('sessionId', $sessionId)->get();
+
+        if ($cart->isEmpty()) {
+            notyf()->error('Your cart is empty.');
+            return redirect()->back();
+        }
+
         foreach ($cart as $item) {
             $order = new Order;
-            $order->name = $name;
-            $order->phone = $phone;
-            $order->rec_address = $address;
-            $order->user_id = $userid;
+            $order->name = $request->name;
+            $order->phone = $request->phone;
+            $order->email = $request->email;
+            $order->rec_address = $request->address;
             $order->product_id = $item->product_id;
-            $order->status = 'in progress';
+            $order->total_price = $request->input('val');
+            $order->status = 'In Progress';
             $order->save();
         }
-        $remove_cart = Cart::where('user_id', $userid)->get();
-        foreach ($remove_cart as $item) {
-            $data = Cart::find($item->id);
-            $data->delete();
-        }
+
+        Cart::where('sessionId', $sessionId)->delete();
+
         notyf()->success('Order Confirmed Successfully.');
         notyf()->warning('Thanks For Purchasing MY LOVEE!');
-        return redirect()->back();
+        return redirect('/');
     }
 
     public function view_order()
     {
-        $data= Order::all();
+        $data = Order::all();
         return view('admin.view_order', compact('data'));
     }
 
@@ -290,12 +333,58 @@ class HomeController extends Controller
         return redirect('view_order');
     }
 
-    public function myorder()
+    // ====================================================================================
+    public function verify_order(Request $request)
     {
-        $userid = Auth::user()->id;
-        $orders = Order::where('user_id', $userid)->get();
-        $count = Cart::where('user_id', $userid)->get()->count();
-        return view('home.myorder', compact('orders','count'));   
+        $request->validate([
+            'phone' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        $userPhone = $request->phone;
+        $userEmail = $request->email;
+
+        // Make sure both phone and email match for same order
+        $orders = Order::where('phone', $userPhone)->where('email', $userEmail)->get();
+        if ($orders->isEmpty()) {
+            $count = Cart::where('sessionId', session()->getId())->count();
+            notyf()->error('No Order Found.');
+            return view('home.myorder_verfy', compact('count'));
+        }
+
+        // ✅ Store into session after success
+        session([
+            'user_phone' => $userPhone,
+            'user_email' => $userEmail
+        ]);
+
+        $count = Cart::where('sessionId', session()->getId())->count();
+        return view('home.myorder', compact('count', 'orders'));
     }
 
+    // ✅ Always check session when accessing myorder
+    public function myorder(Request $request)
+    {
+        $userPhone = session('user_phone');
+        $userEmail = session('user_email');
+
+        if (!$userPhone || !$userEmail) {
+            notyf()->error('Please verify your phone and email.');
+            return redirect()->route('myorder_verfy');
+        }
+
+        $orders = Order::where('phone', $userPhone)
+                      ->where('email', $userEmail)
+                      ->get();
+
+        $count = Cart::where('sessionId', session()->getId())->count();
+        return view('home.myorder', compact('count', 'orders'));
+    }
+
+    // ====================================================================================
+    public function myorder_verfy(Request $request)
+    {
+        $count = Cart::where('sessionId', session()->getId())->count();
+        return view('home.myorder_verfy', compact('count'));
+    }
 }
