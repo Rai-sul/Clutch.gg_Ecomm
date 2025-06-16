@@ -217,20 +217,23 @@ class HomeController extends Controller
         return redirect()->route('view_products');
     }
 
-    public function add_cart($id)
-    {
-        $product_id = $id;
+    // ====================================================================================
 
-        // Reduce product quantity
+
+    public function add_cart(Request $request)
+    {
+        $product_id = $request->product_id;
         $product = Product::find($product_id);
-        if ($product->quantity <= 0) {
-            notyf()->error('Out of stock.');
-            return redirect()->back();
+
+        if (!$product || $product->quantity <= 0) {
+            return response()->json(['status' => 'error', 'message' => 'Out of stock.']);
         }
 
+        // Reduce stock
         $product->quantity -= 1;
         $product->save();
 
+        // Add to cart
         $sessionId = session()->getId();
 
         $data = new Cart;
@@ -238,10 +241,20 @@ class HomeController extends Controller
         $data->product_id = $product_id;
         $data->save();
 
-        notyf()->success('Product Added To Cart Successfully.');
-        return redirect()->back();
+        return response()->json(['status' => 'success', 'message' => 'Product Added To Cart Successfully.']);
     }
 
+    public function cart_count()
+    {
+        $sessionId = session()->getId();
+        $cartCount = Cart::where('sessionId', $sessionId)->count();
+        return response()->json(['count' => $cartCount]);
+    }
+
+
+
+
+    // ====================================================================================
     public function mycart()
     {
         $sessionId = session()->getId();

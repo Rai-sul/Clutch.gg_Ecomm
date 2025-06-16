@@ -525,7 +525,10 @@
         .sold-count {
             font-size: 14px;
             color: #F1C40F;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .variant-title {

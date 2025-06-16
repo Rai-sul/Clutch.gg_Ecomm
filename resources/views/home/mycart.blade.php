@@ -2,16 +2,19 @@
 <html>
 
 <head>
-    @include('home.css')
-    @include('admin.css')
+  <meta charset="UTF-8">
+   @include('home.css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Notyf CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 
 <body>
-    <div class="hero_area">
-        <!-- header section starts -->
-        @include('home.header')
-        <!-- end header section -->
-    </div>
+  <div class="hero_area">
+    <!-- header section strats -->
+    @include('home.header')
+
+    <!-- end header section -->
 
     <div class="checkout-container">
         <!-- Customer Information Section -->
@@ -163,42 +166,38 @@
 
                 </form>
             </div>
-                </div>
+    </div>
                 
                 <p class="note-text" style="color:yellow">We'll contact you once the order is confirmed</p>
                 
-            
-       
-        
-        <!-- footer section -->
-        @include('home.footer')
-        <!-- end footer section -->
-        
-        <!-- scripts -->
-        <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-        <script src="{{ asset('js/custom.js') }}"></script>
-        
-        <!-- Delivery charge dynamic calculation -->
-        <script>
-            const subtotal = {{ $value }};
-            const deliveryCharges = {
-                dhaka: 60,
-                suburban: 100,
-                outside_dhaka: 120
-            };
 
-            document.querySelectorAll('input[name="delivery_zone"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const selectedZone = this.value;
-                    const deliveryCharge = deliveryCharges[selectedZone];
-                    document.getElementById('delivery-charge').textContent = deliveryCharge + ' BDT';
-                    const total = subtotal + deliveryCharge;
-                    document.getElementById('total-price').textContent = total + ' BDT';
-                });
-            });
-        </script>
 
-    </body>
+
+
+    <!-- footer section -->
+    @include('home.footer')
+    <!-- footer section -->
+
+  </section>
+
+  <!-- end info section -->
+
+
+  <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap.js') }}"></script>
+  <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js') }}">
+  </script>
+  <script src="{{ asset('js/custom.js') }}"></script>
+
+
+
+
+
+  <!-- SHop_selection's Script -->
+  <!-- Notyf JS -->
+  <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+  @include('home.cartJS')
+</body>
+
 </html>

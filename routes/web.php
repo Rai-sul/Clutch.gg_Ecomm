@@ -22,7 +22,10 @@ route::get('delete_product/{id}', [HomeController::class, 'delete_product'])->na
 route::get('edit_product/{id}', [HomeController::class, 'edit_product'])->name('edit_product');
 route::post('update_product/{id}', [HomeController::class, 'update_product'])->name('update_product');
 route::get('product_details/{id}', [HomeController::class, 'product_details'])->name('product_details');
-route::get('add_cart/{id}', [HomeController::class, 'add_cart']);
+
+Route::post('add_cart', [HomeController::class, 'add_cart'])->name('add_cart');
+Route::get('cart_count', [HomeController::class, 'cart_count'])->name('cart_count');
+
 route::get('mycart', [HomeController::class, 'mycart'])->name('mycart');
 route::get('remove_cart/{id}', [HomeController::class, 'remove_cart'])->name('remove_cart');
 route::post('confirm_order', [HomeController::class, 'confirm_order'])->name('confirm_order');

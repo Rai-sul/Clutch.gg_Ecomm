@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    @include('home.css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    
-</head>
-<body>
-    @include('home.header')
+<html>
 
+<head>
+  <meta charset="UTF-8">
+   @include('home.css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Notyf CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    @include('home.header')
     <div class="product-detail-container">
         <div class="product-images">
             <div class="slider-wrapper">
@@ -34,9 +40,13 @@
             
             <div class="sold-count">
                 @if($data->quantity > 0)
-                    <span>In Stock: {{ $data->quantity }}</span>
+                    <div class="badge bg-success stock-count" id="stock-{{ $data->id }}">
+                        In Stock: {{ $data->quantity }}
+                    </div>
                 @else
-                    <span class="badge bg-danger">Out of Stock</span>
+                    <div class="badge bg-danger stock-count" id="stock-{{ $data->id }}">
+                        Out of Stock
+                    </div>
                 @endif
 
             </div>
@@ -75,18 +85,15 @@
                 </div>
             </div>
 
-
-     
-            
-            
             <div class="action-buttons">
-                        @if($data->quantity > 0)
-                            <a href="{{ url('add_cart',$data->id) }}" class="add-to-cart-btn">Add to Cart</a>
-                        @else
-                            
-                            <a href="#" class="add-to-cart-btn disabled">Out of Stock</a>
-                        @endif
-                    </div>
+                    @if($data->quantity > 0)
+                        <button class="add-to-cart-btn"  data-product-id="{{ $data->id }}">Add to Cart</button>
+                    @else
+                        <button class="add-to-cart-btn disabled" disabled>Out of Stock</button>
+                    @endif
+                
+                
+            </div>
             
         </div>
     </div>
@@ -174,6 +181,31 @@
             updateSlider();
         }
     </script>
- 
+
+    <!-- footer section -->
     @include('home.footer')
+    <!-- footer section -->
+
+  </section>
+
+  <!-- end info section -->
+
+
+  <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap.js') }}"></script>
+  <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js') }}">
+  </script>
+  <script src="{{ asset('js/custom.js') }}"></script>
+
+
+
+
+
+  <!-- SHop_selection's Script -->
+  <!-- Notyf JS -->
+  <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+  @include('home.cartJS')
 </body>
+
+</html>

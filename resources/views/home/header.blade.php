@@ -45,8 +45,8 @@
         <a href="{{ url('mycart') }}" style="display: flex; align-items: center; color: white; padding: 10px 20px; text-decoration: none;">
             <i class="fa fa-shopping-cart" style="font-size: 24px; margin-right: 10px;"></i>
             <div style="display: flex; flex-direction: column;">
-                <span>My Cart</span>
-                <span style="font-size: 14px;">Items:{{ $count }}</span>
+                
+                <span id="cart-count">0</span>
             </div>
         </a>
 
