@@ -48,7 +48,7 @@
                         </div>
                         <div>
                             <label for="image">Image</label>
-                            <input type="file" name="image">
+                            <input type="file" name="images[]" multiple>
                             
                             @if($product->image)
                                 <div style="margin-top: 10px; text-align: center;">

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <div class="hero_area">
+  
     <!-- header section strats -->
     @include('home.header')
 
@@ -36,10 +36,9 @@
                         </a>
                         <div class="service-content">
                             @if($product->quantity > 0)
-                                <div class="badge bg-success">In Stock {{ $product->quantity }}</div>
                                 <a href="{{ url('add_cart',$product->id) }}" class="order-button" style="text-align: center;">Add to Cart</a>
                             @else
-                                <div class="badge bg-danger">Out of Stock </div>
+                                
                                 <a href="#" class="btn btn-primary disabled">Out of Stock</a>
                             @endif
                         </div>

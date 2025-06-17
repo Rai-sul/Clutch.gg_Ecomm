@@ -29,6 +29,7 @@
                         <th>Product Title</th>
                         <th>Product Price</th>
                         <th>Product Image</th>
+                        <th>Order Created</th>
                         <th>Payment Status</th>
                         <th>Status</th>
                         <th>Change Status</th>
@@ -43,6 +44,7 @@
                         <td>
                             <img src="{{ asset($order->product->image) }}" style="width: 100px; height: 100px;">
                         </td>
+                        <td>{{ $order->created_at }}</td>
                         <td>{{ $order->status }}</td>
                         <td>
                             @if ($order->status === 'in progress')

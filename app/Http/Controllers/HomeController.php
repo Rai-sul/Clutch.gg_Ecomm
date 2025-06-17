@@ -191,18 +191,48 @@ class HomeController extends Controller
         if ($product) {
             $product->title = $request->title;
             $product->description = $request->description;
-            // Image upload
-            if ($request->hasFile('image')) {
-                // Delete Previous Image
+//================================= For Images //=================================
+            // ✅ Handle image upload
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+                $firstImagePath = null;
+
+                // ✅ Step 1: Delete all old product images from file system
+                $existingImages = ProductImages::where('product_id', $product->id)->get();
+                foreach ($existingImages as $img) {
+                    if (file_exists(public_path($img->image_path))) {
+                        unlink(public_path($img->image_path));
+                    }
+                }
+
+                // ✅ Step 2: Delete old entries from database
+                ProductImages::where('product_id', $product->id)->delete();
+
+                // ✅ Step 3: Delete old main image (from product table)
                 if ($product->image && file_exists(public_path($product->image))) {
                     unlink(public_path($product->image));
                 }
 
-                $image = $request->file('image');
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('product'), $imageName);
-                $product->image = 'product/' . $imageName;
-            }
+                // ✅ Step 4: Upload and save new images
+                foreach ($images as $index => $file) {
+                    $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('product_images'), $imageName);
+                    $imagePath = 'product_images/' . $imageName;
+
+                    ProductImages::create([
+                        'product_id' => $product->id,
+                        'image_path' => $imagePath,
+                    ]);
+
+                    if ($index === 0) {
+                        $firstImagePath = $imagePath;
+                    }
+                }
+
+                if ($firstImagePath) {
+                    $product->image = $firstImagePath;
+                }
+            }            
             $product->price = $request->price;
             $product->category = $request->category;
             $product->quantity = $request->qty;
@@ -399,5 +429,11 @@ class HomeController extends Controller
     {
         $count = Cart::where('sessionId', session()->getId())->count();
         return view('home.myorder_verfy', compact('count'));
+    }
+
+    public function show_products(){
+        $products=Product::all();
+        $count=Product::all()->count();
+        return view('home.show_products',compact('products','count'));
     }
 }

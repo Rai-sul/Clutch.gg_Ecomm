@@ -189,6 +189,26 @@
   </script>
   <script src="{{ asset('js/custom.js') }}"></script>
 
+  <!-- Delivery charge dynamic calculation -->
+    <script>
+        const subtotal = {{ $value }};
+        const deliveryCharges = {
+            dhaka: 60,
+            suburban: 100,
+            outside_dhaka: 120
+        };
+
+        document.querySelectorAll('input[name="delivery_zone"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const selectedZone = this.value;
+                const deliveryCharge = deliveryCharges[selectedZone];
+                document.getElementById('delivery-charge').textContent = deliveryCharge + ' BDT';
+                const total = subtotal + deliveryCharge;
+                document.getElementById('total-price').textContent = total + ' BDT';
+            });
+        });
+    </script>
+
 
 
 

@@ -14,7 +14,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/shop_selection">
+            <a class="nav-link" href="{{ url('show_products') }}">
                PRODUCTS
             </a>
           </li>

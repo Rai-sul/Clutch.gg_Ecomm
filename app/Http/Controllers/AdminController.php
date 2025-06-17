@@ -20,8 +20,9 @@ class AdminController extends Controller
             $product_count = Product::all()->count();
             $order_count = Order::all()->count();
             $delivery_count = Order::where('status', 'delivered')->get()->count();
+            $revenue = Order::where('status', 'delivered')->get();
             if ($usertype == 'admin') {
-                return view('admin.index',compact('user_count','product_count','order_count', 'delivery_count'));
+                return view('admin.index',compact('user_count','product_count','order_count', 'delivery_count','revenue'));
             } else {
                 // Redirect to user home if the user is logged in
                 $products = Product::all();

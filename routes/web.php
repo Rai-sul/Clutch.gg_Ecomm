@@ -37,3 +37,4 @@ route::post('confirm_detail', [HomeController::class, 'confirm_detail'])->name('
 route::get('myorder_verfy', [HomeController::class, 'myorder_verfy'])->name('myorder_verfy');
 route::post('verify_order', [HomeController::class, 'verify_order'])->name('verify_order');
 route::get('category_product/{category_name}', [AdminController::class, 'category_product'])->name('category_product');
+route::get('show_products', [HomeController::class, 'show_products'])->name('show_products');

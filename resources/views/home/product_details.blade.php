@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <div class="hero_area">
+  
     <!-- header section strats -->
     @include('home.header')
     <div class="product-detail-container">
@@ -40,11 +40,11 @@
             
             <div class="sold-count">
                 @if($data->quantity > 0)
-                    <div class="badge bg-success stock-count" id="stock-{{ $data->id }}">
-                        In Stock: {{ $data->quantity }}
+                    <div class="badge bg-success stock-count" style="font-size: 14px; padding: 8px 12px; border-radius: 8px; color: white; background-color: #dc3545; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" id="stock-{{ $data->id }}">
+                        In Stock {{ $data->quantity }}
                     </div>
                 @else
-                    <div class="badge bg-danger stock-count" id="stock-{{ $data->id }}">
+                    <div class="badge bg-danger stock-count" style="font-size: 14px; padding: 8px 12px; border-radius: 8px; color: white; background-color: #dc3545; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" id="stock-{{ $data->id }}">
                         Out of Stock
                     </div>
                 @endif
@@ -134,7 +134,7 @@
                 <div style="color: #fff;">No</div>
             </div>
         </div>
-    </div>
+    
 
     <script>
         let currentSlide = 0;
