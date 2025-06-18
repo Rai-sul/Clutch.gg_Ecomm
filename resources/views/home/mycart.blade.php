@@ -95,6 +95,7 @@
                             <thead>
                                 <tr>
                                     <th>Product</th>
+                                    <th>Qty</th>
                                     <th>Price</th>
                                     <th></th>
                                 </tr>
@@ -102,19 +103,38 @@
                             <tbody>
                                 @php $value = 0; @endphp
                                 @foreach($cart as $caart)
-                                    <tr>
-                                        <td>
-                                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                                <img src="{{ asset($caart->product->image) }}" class="cart-item-img">
-                                                <span>{{ $caart->product->title }}</span>
+                                <tr 
+                                    data-cart-id="{{ $caart->id }}"
+                                    data-product-id="{{ $caart->product->id }}"
+                                    data-stock="{{ $caart->product->quantity }}"
+                                    data-price="{{ $caart->product->price }}"
+                                >
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <img src="{{ asset($caart->product->image) }}" class="cart-item-img">
+                                            <span>{{ $caart->product->title }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="controls">
+                                            <div class="quantity-box">
+                                                <button type="button" class="decreaseBtn">−</button>
+                                                <span class="quantity-number">{{ $caart->quantity }}</span>
+                                                <button type="button" class="increaseBtn">+</button>
                                             </div>
-                                        </td>
-                                        <td>{{ $caart->product->price }} BDT</td>
-                                        <td>
-                                            <a href="{{ url('remove_cart', $caart->id) }}" class="btn-remove">Remove</a>
-                                        </td>
-                                    </tr>
-                                    @php $value += $caart->product->price; @endphp
+                                        </div>
+                                        <div class="stock-info">
+                                            <span class="stockInfo">In Stock: {{ $caart->product->quantity }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="total-price">{{ $caart->product->price * $caart->quantity }}</span> BDT
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('remove_cart', $caart->id) }}" class="btn-remove text-danger"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                @php $value += $caart->product->price * $caart->quantity; @endphp
                                 @endforeach
                             </tbody>
                         </table>
@@ -142,19 +162,19 @@
 
                         <div>
                             <div class="summary-row">
-                                <span>Subtotal</span>
-                                <span>{{ $value }} BDT</span>
+                                <span>Subtotal:</span> 
+                                <strong><span id="subtotal">{{ $value }} </span></strong>
                             </div>
                             <div class="summary-row">
                                 <span>VAT / TAX (0%)</span>
-                                <span>0 BDT</span>
+                                <strong><span>0 BDT</span></strong>
                             </div>
                             <div class="summary-row">
-                                <span>Delivery Charge</span>
-                                <span id="delivery-charge">0 BDT</span>
+                                <span>Delivery Charge:</span> 
+                                <strong><span id="delivery-charge">0 BDT</span></strong>
                             </div>
                             <div class="summary-row">
-                                <span>Total</span>
+                                <span>Total:</span> 
                                 <span id="total-price">{{ $value }} BDT</span>
                                 <input type="hidden" name="val" value="{{ $value }}">
                             </div>
@@ -191,23 +211,115 @@
 
   <!-- Delivery charge dynamic calculation -->
     <script>
-        const subtotal = {{ $value }};
-        const deliveryCharges = {
-            dhaka: 60,
-            suburban: 100,
-            outside_dhaka: 120
-        };
+        document.addEventListener("DOMContentLoaded", function () {
+            const csrfToken = '{{ csrf_token() }}';
+            let deliveryCharge = 0;
+            const deliveryCharges = {
+                dhaka: 60,
+                suburban: 100,
+                outside_dhaka: 120
+            };
 
-        document.querySelectorAll('input[name="delivery_zone"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const selectedZone = this.value;
-                const deliveryCharge = deliveryCharges[selectedZone];
-                document.getElementById('delivery-charge').textContent = deliveryCharge + ' BDT';
+            function recalculateSubtotal() {
+                let subtotal = 0;
+                document.querySelectorAll("tr[data-cart-id]").forEach(row => {
+                    const unitPrice = parseFloat(row.dataset.price);
+                    const quantity = parseInt(row.querySelector(".quantity-number").textContent);
+                    subtotal += unitPrice * quantity;
+                });
+                document.getElementById("subtotal").textContent = subtotal.toFixed(2) + " BDT";
                 const total = subtotal + deliveryCharge;
-                document.getElementById('total-price').textContent = total + ' BDT';
+                document.getElementById("total-price").textContent = total.toFixed(2) + " BDT";
+            }
+
+            // Listen to delivery zone changes
+            document.querySelectorAll('input[name="delivery_zone"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const selectedZone = this.value;
+                    deliveryCharge = deliveryCharges[selectedZone];
+                    document.getElementById('delivery-charge').textContent = deliveryCharge + ' BDT';
+                    recalculateSubtotal(); // recalculate total with new delivery charge
+                });
+            });
+
+            // ========== Cart Quantity Update ==========
+            document.querySelectorAll("tr[data-cart-id]").forEach(row => {
+                const cartId = row.dataset.cartId;
+                const productId = row.dataset.productId;
+                let stock = parseInt(row.dataset.stock) || 0;
+                const unitPrice = parseFloat(row.dataset.price) || 0;
+                let quantityEl = row.querySelector(".quantity-number");
+                let quantity = parseInt(quantityEl.textContent) || 1;
+                const increaseBtn = row.querySelector(".increaseBtn");
+                const decreaseBtn = row.querySelector(".decreaseBtn");
+                const stockInfo = row.querySelector(".stockInfo");
+                const totalPriceEl = row.querySelector(".total-price");
+
+                function updateUI() {
+                    quantityEl.textContent = quantity;
+                    stockInfo.textContent = `In Stock: ${stock}`;
+                    const itemTotal = unitPrice * quantity;
+                    totalPriceEl.textContent = itemTotal.toFixed(2) + " BDT";
+
+                    increaseBtn.disabled = stock <= 0;
+                    decreaseBtn.disabled = quantity <= 1;
+
+                    recalculateSubtotal();
+                }
+
+                increaseBtn.addEventListener("click", function () {
+                    if (stock > 0) {
+                        fetch("{{ route('cart.increment') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: JSON.stringify({ cart_id: cartId, product_id: productId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                quantity++;
+                                stock = data.stock;
+                                updateUI();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                    }
+                });
+
+                decreaseBtn.addEventListener("click", function () {
+                    if (quantity > 1) {
+                        fetch("{{ route('cart.decrement') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: JSON.stringify({ cart_id: cartId, product_id: productId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                quantity--;
+                                stock = data.stock;
+                                updateUI();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                    }
+                });
+
+                updateUI(); // initialize
             });
         });
     </script>
+
 
 
 

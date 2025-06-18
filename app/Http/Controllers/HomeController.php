@@ -269,6 +269,7 @@ class HomeController extends Controller
         $data = new Cart;
         $data->sessionId = $sessionId;
         $data->product_id = $product_id;
+        $data->quantity = 1;
         $data->save();
 
         return response()->json(['status' => 'success', 'message' => 'Product Added To Cart Successfully.']);
@@ -295,7 +296,7 @@ class HomeController extends Controller
         return view('home.mycart', compact('cart', 'count'));
     }
 
-    public function remove_cart($id)
+    public function remove_cart($id) 
     {
         $sessionId = session()->getId();
 
@@ -303,10 +304,13 @@ class HomeController extends Controller
 
         if ($cart) {
             $product = Product::find($cart->product_id);
+            $qty = $cart->quantity; // ✅ Fix here
+
             if ($product) {
-                $product->quantity += 1;
+                $product->quantity += $qty;
                 $product->save();
             }
+
             $cart->delete();
             notyf()->warning('Product Removed From your Cart.');
         } else {
@@ -435,5 +439,48 @@ class HomeController extends Controller
         $products=Product::all();
         $count=Product::all()->count();
         return view('home.show_products',compact('products','count'));
+    }
+
+    public function increment(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        $cart = Cart::find($request->cart_id);
+
+        if (!$product || $product->quantity <= 0) {
+            return response()->json(['status' => 'error', 'message' => 'Not in stock.']);
+        }
+
+        if (!$cart) {
+            return response()->json(['status' => 'error', 'message' => 'Cart item not found.']);
+        }
+
+        $product->quantity -= 1;
+        $product->save();
+
+        $cart->quantity += 1;
+        $cart->save();
+
+        return response()->json(['status' => 'success', 'stock' => $product->quantity]);
+    }
+    public function decrement(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        $cart = Cart::find($request->cart_id);
+
+        if (!$product) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid product.']);
+        }
+
+        if (!$cart || $cart->quantity <= 1) {
+            return response()->json(['status' => 'error', 'message' => 'Minimum quantity is 1.']);
+        }
+
+        $product->quantity += 1;
+        $product->save();
+
+        $cart->quantity -= 1;
+        $cart->save();
+
+        return response()->json(['status' => 'success', 'stock' => $product->quantity]);
     }
 }

@@ -232,12 +232,7 @@
 <section class="hero-slider">
   <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
     <!-- Indicators -->
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-    </div>
-    
+
     <!-- Slides -->
     <div class="carousel-inner">
       <!-- Slide 1 (Main Slide) -->
@@ -322,12 +317,6 @@
     </div>
     
     <!-- Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
   </div>
 </section>
 
@@ -337,8 +326,7 @@
   // Initialize carousel with interval
   document.addEventListener('DOMContentLoaded', function() {
     var myCarousel = new bootstrap.Carousel(document.getElementById('heroCarousel'), {
-      interval: 3000, // Change slide every 5 seconds
-      pause: "hover", // Pause on hover
+      interval: 3000, // Change slide every 3 seconds
       wrap: true // Infinite looping
     });
   });

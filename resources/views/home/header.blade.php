@@ -3,10 +3,6 @@
 <header class="header-section">
   <nav class="navbar navbar-expand-lg">
     <div class="container">
-      
-     
-      
-      
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <a class="nav-link active" href="/">

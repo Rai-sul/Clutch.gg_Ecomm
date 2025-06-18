@@ -917,6 +917,58 @@
               position: static;
           }
       }
+
+
+              .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quantity-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #fff;
+            padding: 10px 15px;
+        }
+
+        .quantity-box button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            width: 30px;
+        }
+
+        .quantity-number {
+            margin: 0 15px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .action-button {
+            border: 1px solid #fff;
+            background: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .buy-now {
+            background: white;
+            color: black;
+            margin-top: 20px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
     
     </style>
 

@@ -38,3 +38,5 @@ route::get('myorder_verfy', [HomeController::class, 'myorder_verfy'])->name('myo
 route::post('verify_order', [HomeController::class, 'verify_order'])->name('verify_order');
 route::get('category_product/{category_name}', [AdminController::class, 'category_product'])->name('category_product');
 route::get('show_products', [HomeController::class, 'show_products'])->name('show_products');
+Route::post('/cart/increment', [HomeController::class, 'increment'])->name('cart.increment');
+Route::post('/cart/decrement', [HomeController::class, 'decrement'])->name('cart.decrement');

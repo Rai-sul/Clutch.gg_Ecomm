@@ -37,7 +37,6 @@
    
 
   <!-- info section -->
-  @include('home.info')
 
     <!-- footer section -->
     @include('home.footer')
