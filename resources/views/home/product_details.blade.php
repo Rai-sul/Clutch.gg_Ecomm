@@ -87,7 +87,7 @@
 
             <div class="action-buttons">
                     @if($data->quantity > 0)
-                        <button class="add-to-cart-btn"  data-product-id="{{ $data->id }}">Add to Cart</button>
+                        <button class="add-to-cart-btn"  data-product-id="{{ $data->id }}" data-session-id="{{ session()->getId() }}">Add to Cart</button>
                     @else
                         <button class="add-to-cart-btn disabled" disabled>Out of Stock</button>
                     @endif

@@ -36,7 +36,7 @@
                         </a>
                         <div class="service-content">
                             @if($product->quantity > 0)
-                                <a href="{{ url('add_cart',$product->id) }}" class="order-button" style="text-align: center;">Add to Cart</a>
+                                <button class="add-to-cart-btn "  data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add to Cart</button>
                             @else
                                 
                                 <a href="#" class="btn btn-primary disabled">Out of Stock</a>

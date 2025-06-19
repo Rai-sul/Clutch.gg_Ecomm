@@ -38,9 +38,10 @@ class AdminController extends Controller
     {
         $products = Product::all();
         $categories = category::all();
+        $cart_info= cart::all();
         $count = Cart::where('sessionId', session()->getId())->count();
          
-        return view('home.index', compact('products', 'categories', 'count'));
+        return view('home.index', compact('products', 'categories', 'count','cart_info'));
     }
 
     public function category_product($category_name)

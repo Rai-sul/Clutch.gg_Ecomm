@@ -253,7 +253,15 @@ class HomeController extends Controller
     public function add_cart(Request $request)
     {
         $product_id = $request->product_id;
+        $ses_id=$request->s_id;
+
         $product = Product::find($product_id);
+
+        $cart_prod = Cart::Where('product_id',$product_id)->where('sessionId',$ses_id)->exists();
+        if($cart_prod){
+            return response()->json(['status' => 'error', 'message' => 'Already Added to Cart']);
+        }
+
 
         if (!$product || $product->quantity <= 0) {
             return response()->json(['status' => 'error', 'message' => 'Out of stock.']);

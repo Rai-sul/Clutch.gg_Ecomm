@@ -51,7 +51,7 @@
                                 <div class="badge bg-success stock-count" id="stock-{{ $product->id }}">
                                     In Stock {{ $product->quantity }}
                                 </div>
-                                <button class="btn btn-primary add-to-cart-btn"  data-product-id="{{ $product->id }}">Add to Cart</button>
+                                <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add to Cart</button>
                             @else
                                 <div class="badge bg-danger stock-count" id="stock-{{ $product->id }}">
                                     Out of Stock

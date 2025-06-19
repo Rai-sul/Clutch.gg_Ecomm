@@ -128,7 +128,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="total-price">{{ $caart->product->price * $caart->quantity }}</span> BDT
+                                        <span class="total-price">{{ $caart->product->price * $caart->quantity }}</span>
                                     </td>
                                     <td>
                                         <a href="{{ url('remove_cart', $caart->id) }}" class="btn-remove text-danger"><i class="fas fa-trash-alt"></i></a>

@@ -13,57 +13,66 @@
 
       updateCartCount();
 
-      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-          button.addEventListener('click', function (e) {
-              e.preventDefault();
-              const productId = this.dataset.productId;
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
 
-              fetch("{{ route('add_cart') }}", {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'X-CSRF-TOKEN': csrfToken
-                  },
-                  body: JSON.stringify({ product_id: productId })
-              })
-              .then(response => response.json())
-              .then(data => {
-                  if (data.status === 'success') {
-                      notyf.success(data.message);
-                      updateCartCount();
+            const productId = this.dataset.productId;
+            const sessionId = this.dataset.sessionId;
 
-                      // Stock update logic
-                      let stockElement = document.getElementById(`stock-${productId}`);
-                      if (stockElement) {
-                          let currentStockText = stockElement.innerText.match(/\d+/);
-                          let currentStock = currentStockText ? parseInt(currentStockText[0]) : 0;
+            fetch("{{ route('add_cart') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ 
+                    product_id: productId,
+                    s_id: sessionId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    notyf.success(data.message);
+                    updateCartCount();
 
-                          if (currentStock > 0) {
-                              currentStock -= 1;
-                              stockElement.innerText = `In Stock ${currentStock}`;
+                    // Update stock
+                    let stockElement = document.getElementById(`stock-${productId}`);
+                    if (stockElement) {
+                        let currentStockText = stockElement.innerText.match(/\d+/);
+                        let currentStock = currentStockText ? parseInt(currentStockText[0]) : 0;
 
-                              if (currentStock === 0) {
-                                  stockElement.classList.remove('bg-success');
-                                  stockElement.classList.add('bg-danger');
-                                  stockElement.innerText = `Out of Stock`;
+                        if (currentStock > 0) {
+                            currentStock -= 1;
 
-                                  let button = document.querySelector(`button[data-product-id="${productId}"]`);
-                                  if (button) {
-                                      button.disabled = true;
-                                      button.innerText = "Out of Stock";
-                                  }
-                              }
-                          }
-                      }
-                  } else {
-                      notyf.error(data.message);
-                  }
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-                  notyf.error('Something went wrong!');
-              });
-          });
-      });
-  });
-  </script>
+                            if (currentStock === 0) {
+                                stockElement.classList.remove('bg-success');
+                                stockElement.classList.add('bg-danger');
+                                stockElement.innerText = `Out of Stock`;
+
+                                let button = document.querySelector(`button[data-product-id="${productId}"]`);
+                                if (button) {
+                                    button.disabled = true;
+                                    button.classList.add('disabled');
+                                    button.innerText = "Out of Stock";
+                                }
+                            } else {
+                                stockElement.innerText = `In Stock ${currentStock}`;
+                            }
+                        }
+                    }
+                } else if (data.status === 'exists') {
+                    notyf.success(data.message);
+                } else {
+                    notyf.error(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                notyf.error('Something went wrong!');
+            });
+        });
+    });
+});
+</script>
