@@ -22,15 +22,14 @@
         </ul>
 
         
-        <form class="search-form me-3 d-flex">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search..." > 
-              
-            <button class="btn btn-search" type="submit">
-              <i class="fas fa-search"></i>
-              
-            </button>
-          </div>
+        <form class="search-form me-3 d-flex position-relative" autocomplete="off">
+            <div class="input-group">
+                <input type="text" class="form-control" id="product-search" placeholder="Search...">
+                <button type="button" class="btn btn-search" id="toggle-search" style="color:white">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="search-suggestions" class="dropdown-menu show w-100" style="display: none; max-height: 300px; overflow-y: auto; position: absolute; top: 100%; z-index: 1000;"></div>
         </form>
 
         <a href="{{ url('myorder_verfy') }}" style="display: flex; align-items: center; color: white; padding: 10px 20px; text-decoration: none;">

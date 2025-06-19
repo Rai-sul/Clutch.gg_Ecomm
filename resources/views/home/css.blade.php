@@ -47,23 +47,65 @@
     background: rgba(255, 255, 255, 0.1);
   }
   
-.search-form .form-control {
-    border-radius: 20px 0 0 20px;
-    border: none;
-    background: rgba(255, 255, 255, 0.9);
-    width: 200px;
-    transition: width 0.3s ease;
+  .search-form .form-control {
+      border-radius: 20px 0 0 20px;
+      border: none;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      padding: 0.5rem 1rem;
+      width: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease-in-out;
+      font-size: 0.95rem;
+      overflow: hidden;
   }
   
   .search-form .form-control:focus {
     width: 250px;
   }
+
+  .search-suggestions {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;               /* Full width of search input */
+    max-height: 500px;         /* Make it tall enough to show many results */
+    overflow-y: auto;
+    background-color: #1f1f1f; /* Dark theme background */
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    z-index: 1050;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #2c2c2c;
+}
   
+  /* Search Button */
   .btn-search {
-    border-radius: 0 20px 20px 0;
-    background: #f8f9fa;
-    border: none;
+      border-radius: 0 20px 20px 0;
+      background: black;
+      border: none;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s ease;
   }
+
+  .btn-search:hover {
+      background-color: #e2e6ea;
+  }
+
+  /* On focus input expands a bit more (optional) */
+    .search-form.active .form-control:focus {
+        width: 200px;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 992px) {
+        .search-form.active .form-control {
+            width: 180px;
+        }
+      }
   
   .user-icon {
     font-size: 1.5rem;
@@ -152,14 +194,14 @@
     }
     
     .search-form {
-      order: -1;
-      width: 100%;
-      margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        transition: all 0.3s ease;
     }
+
     
-    .search-form .form-control {
-      width: 100%;
-    }
+
   }
 
 
@@ -969,7 +1011,17 @@
             text-align: center;
             cursor: pointer;
         }
-    
+
+       
+
+
+        /* Active state - expand the input smoothly */
+        .search-form.active .form-control {
+            width: 220px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+            
     </style>
 
 

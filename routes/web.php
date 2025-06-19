@@ -40,3 +40,4 @@ route::get('category_product/{category_name}', [AdminController::class, 'categor
 route::get('show_products', [HomeController::class, 'show_products'])->name('show_products');
 Route::post('/cart/increment', [HomeController::class, 'increment'])->name('cart.increment');
 Route::post('/cart/decrement', [HomeController::class, 'decrement'])->name('cart.decrement');
+Route::get('/search-products', [HomeController::class, 'search']);

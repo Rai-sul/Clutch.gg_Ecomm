@@ -491,4 +491,18 @@ class HomeController extends Controller
 
         return response()->json(['status' => 'success', 'stock' => $product->quantity]);
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->q;
+
+        $products = Product::where('title', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get(['id', 'title', 'image', 'price']); // Limit fields for performance
+
+        // Optional: Attach image (assumes you have one image per product)
+        
+
+        return response()->json($products);
+    }
 }
