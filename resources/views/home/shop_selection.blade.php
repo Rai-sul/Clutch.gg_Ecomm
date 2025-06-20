@@ -10,13 +10,13 @@
             @foreach($categories as $category)
                 <div class="category-card">
                     <a href="{{ url('category_product',$category->category_name) }}">
-                    <div class="box-4 float-container"> 
+                    <!-- <div class="box-4 float-container">  -->
                         <!-- box-4 for image & float-container for position -->
                          <img class="category-img" src="{{ asset($category->image) }}">
                          <div class="category-content">
                             <h3>{{ $category->title }}</h3>
                          </div>
-                    </div>
+                    <!-- </div> -->
                     </a>
                     <div class="category-content">
                         <p>{{$category->category_name}}</p>

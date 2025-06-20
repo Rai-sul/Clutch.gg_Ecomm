@@ -297,85 +297,121 @@
 
  <style>
 
-.container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 1%;
-}
-
 .services {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 80px;
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 80px;
+  }
 
-.service-card {
-  width: 300px;
-  height: 500px;
-  background: linear-gradient(#1D2327);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  display: flex;
-  flex-direction: column;
-}
+  .service-card {
+    width: 300px;
+    height: 500px;
+    background: linear-gradient(#1D2327);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
 
-.service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
 
-.service-img {
-  height: 250px;
-  width: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
+  .service-img {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
 
-.service-card:hover .service-img {
-  transform: scale(1.05);
-}
+  .service-card:hover .service-img {
+    transform: scale(1.05);
+  }
 
-.service-content {
-  padding: 25px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
+  .service-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
 
-.service-content h3 {
-  margin-bottom: 10px;
-  color: White;
-  transition: color 0.3s ease;
-}
+  .service-content h3 {
+    margin-bottom: 10px;
+    color: White;
+    transition: color 0.3s ease;
+  }
 
-.service-card:hover h3 {
-  color: pink;
-}
+  .service-card:hover h3 {
+    color: pink;
+  }
 
-.service-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
+  .service-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
 
-.service-price {
-  color: White;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  .service-price {
+    color: White;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .service-desc {
+    color: White;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
 
 
-.service-desc {
-  color: White;
-  margin-bottom: 20px;
-  line-height: 1.5;
-  flex-grow: 1;
-}
+  /* ✅ For all screens ≤ 768px (including 412px) */
+  @media (max-width: 768px) {
+    .services {
+      gap: 15px;
+      padding: 0 10px;
+      justify-content: center;
+    }
+
+    .service-card {
+      width: 47%; /* This ensures 2 per row with some gap */
+      height: auto;
+      min-height: 440px;
+    }
+
+    .service-img {
+      height: 160px;
+    }
+
+    .service-content {
+      padding: 12px;
+    }
+
+    .service-content h3 {
+      font-size: 1rem;
+    }
+
+    .service-price {
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      font-size: 0.85rem;
+    }
+
+    .stock-count {
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+  }
+  
 </style>  
 
 
@@ -385,18 +421,10 @@
     display: flex;
     flex-wrap: wrap; /* Allows wrapping when the screen is too small */
     justify-content: center; /* Centers the cards */
-    gap: 20px; /* Adds space between cards */
-    margin-bottom: 60px;
+    gap: 30px; /* Adds space between cards */
+    margin-bottom: 80px;
   }
 
-  /* .category-card {
-    background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    text-align: center;
-  } */
 
   .category-icon {
     height: 100px;
@@ -409,12 +437,17 @@
   }
 
   .category-content {
-    padding: 20px;
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .category-content h3 {
     margin-bottom: 10px;
-    color: var(--dark);
+    text-align: center;
+    color: White;
+    transition: color 0.3s ease;
   }
 
   .category-content p {
@@ -422,7 +455,7 @@
     margin-bottom: 15px;
   }
 
-  .box-4 {
+  /* .box-4 {
     width: 100%;
     height: auto;
     float: left;
@@ -434,25 +467,18 @@
     border-radius: 8px;
     overflow: hidden;
     flex-wrap: wrap;
-  }
+  } */
 
   .category-card {
-    width: 30%;
-    margin: 1%;
-    /* padding: 0%; */
-    float: left;
-
+    width: 300px;
+    height: 500px;
     background: linear-gradient(#1D2327);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    text-align: center;
-
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     display: flex;
-    flex-direction: column; /* Stack content vertically */
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
   }
 
   .category-card:hover {
@@ -461,14 +487,48 @@
   }
 
   .category-img {
+    height: 250px;
     width: 100%;
-    height: 200px;
     object-fit: cover;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.5s ease;
   }
 
-  </style>
+  /* --- Mobile Media Query for Category Card (Samsung Galaxy A51/A71, 360-412px) --- */
+  @media (min-width: 360px) and (max-width: 850px) {
+    .services, .categories {
+      gap: 12px;
+      padding: 0 6px;
+    }
+    .service-card, .category-card {
+      width: 48%;
+      min-width: 170px;
+      max-width: 99%;
+      height: auto;
+      min-height: 320px;
+      margin-bottom: 10px;
+    }
+    .service-img, .category-img {
+      height: 120px;
+
+    }
+    .service-content, .category-content {
+      padding: 8px 6px 12px 6px;
+    }
+    .service-content h3, .category-content h3 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+    .service-price, .category-content p {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+    .btn.btn-outline, .add-to-cart-btn {
+      font-size: 0.95rem;
+      padding: 6px 10px;
+    }
+  }
+
+</style>
 
 
 
@@ -744,6 +804,13 @@
     .order-button:active {
         transform: translateY(0);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .order-button:disabled {
+        background: #ccc;
+        color: #888;
+        cursor: not-allowed;
+        box-shadow: none;
     }
 
 
