@@ -1,3 +1,30 @@
+<!-- Sticky Navigation Bar - High Priority -->
+<style>
+.header-section {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  background-color: #1D2327 !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+}
+
+body {
+  padding-top: 80px !important;
+}
+
+@media (max-width: 430px) {
+  body {
+    padding-top: 70px !important;
+  }
+}
+</style>
+
+<!-- Font style -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -370,6 +397,25 @@
     flex-grow: 1;
   }
 
+  .service-content .add-to-cart-btn {
+    display: block;
+    margin: 16px auto 0 auto;
+    text-align: center;
+    background-color: #f05454;
+    color: #fff;
+    border: none;
+    border-radius: 32px;
+    padding: 14px 32px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .service-content .add-to-cart-btn:hover {
+    background-color: #d93b3b;
+    color: #fff;
+  }
 
   /* ✅ For all screens ≤ 768px (including 412px) */
   @media (max-width: 768px) {
@@ -528,6 +574,14 @@
     }
   }
 
+  .category-content .btn.btn-outline,
+  .service-content .add-to-cart-btn,
+  .service-content .btn.btn-outline {
+    display: block;
+    margin: 16px auto 0 auto;
+    text-align: center;
+  }
+
 </style>
 
 
@@ -548,13 +602,6 @@
             /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
             background: linear-gradient(#1F2937);
             min-height: 100vh;
-        }
-
-        .hero_area {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            margin-bottom: 50px;
         }
 
         .header {
@@ -1108,8 +1155,412 @@
   <!-- responsive style -->
   <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" />
 
-
-  <!-- Font style -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<!-- Mobile Navigation and Card Styles -->
+<style>
+/* Mobile Navigation for Samsung Galaxy A51/A71 */
+@media (max-width: 430px) {
+  .header-section {
+    padding: 10px 0;
+  }
   
+  .navbar {
+    position: relative;
+    justify-content: center;
+  }
+  
+  .navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .mobile-nav-toggle {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    padding: 6px 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1050;
+  }
+  
+  .navbar-nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100vh;
+    background: #2c3e50;
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    transition: left 0.3s ease;
+    z-index: 1040;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+  }
+  
+  .navbar-nav.show {
+    left: 0;
+  }
+  
+  .navbar-nav .nav-item {
+    margin: 10px 0;
+    width: 100%;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 12px 15px;
+    font-size: 18px;
+    text-align: left;
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .search-form {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    width: auto;
+  }
+  
+  .search-form .form-control {
+    display: none;
+  }
+  
+  .search-form .btn-search {
+    background: none;
+    border: none;
+    padding: 8px;
+  }
+  
+  a[href="{{ url('mycart') }}"] {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px;
+    margin: 0;
+  }
+  
+  /* Show My Orders in mobile menu */
+  .mobile-only-nav {
+    display: block;
+  }
+  
+  /* Hide desktop elements on mobile */
+  .d-none.d-lg-flex,
+  .d-none.d-lg-block {
+    display: none !important;
+  }
+  
+  /* Mobile menu button styles */
+  .mobile-nav-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* Mobile auth button styles */
+  .mobile-only-nav .btn-link {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: none;
+    padding: 0;
+    font-size: 18px;
+  }
+}
+
+/* ============================================================ Hero slider designs ============================================================ */
+  .hero-slider {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: white;
+      padding: 4rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .hero-content {
+      padding: 2rem;
+    }
+    
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    
+    .hero-content h1 span {
+      color: #f05454;
+      display: inline-block;
+    }
+    
+    .hero-content p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    
+    .hero-image {
+      position: relative;
+      text-align: center;
+    }
+    
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-primary {
+      background-color: #f05454;
+      border: none;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      margin-right: 1rem;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: #d93b3b;
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .featured-games {
+      margin-top: 2rem;
+    }
+    
+    .featured-games span {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    .game-logos img {
+      height: 30px;
+      margin-right: 1rem;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+    
+    .game-logos img:hover {
+      opacity: 1;
+    }
+    
+    .badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #f05454;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      animation-duration: 2s;
+    }
+    
+    .discount-tag {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .carousel-indicators button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin: 0 5px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border: none;
+    }
+    
+    .carousel-indicators button.active {
+      background-color: #f05454;
+    }
+    
+    .carousel-control-prev, .carousel-control-next {
+      width: 5%;
+    }
+    
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+      background-size: 60%;
+      background-color: rgba(240, 84, 84, 0.7);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+    
+    /* Animation classes */
+    .animated {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+    }
+    
+    .fadeInUp {
+      animation-name: fadeInUp;
+    }
+    
+    .fadeIn {
+      animation-name: fadeIn;
+    }
+    
+    .delay-1 {
+      animation-delay: 0.3s;
+    }
+    
+    .delay-2 {
+      animation-delay: 0.6s;
+    }
+    
+    .delay-3 {
+      animation-delay: 0.9s;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero-image {
+        margin-top: 2rem;
+      }
+      
+      .hero-slider {
+        padding: 2rem 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .btn-primary, .btn-outline {
+        padding: 0.6rem 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+
+
+/* Specific fix for show_products page on Samsung Galaxy A51/A71 */
+@media (min-width: 360px) and (max-width: 850px) {
+  .show-products-page .services {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px;
+  }
+  
+  .show-products-page .service-card {
+    width: 48% !important;
+    margin: 0 0 15px 0 !important;
+    float: none !important;
+    min-height: 320px;
+    height: auto;
+    flex: 0 0 48%;
+  }
+  
+  .show-products-page .service-img {
+    height: 120px;
+  }
+}
+
+/* Force 2 cards per row on show_products page for mobile devices */
+@media (max-width: 430px) {
+  .show-products-page .services {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    padding: 0 5px !important;
+  }
+  
+  .show-products-page .service-card {
+    width: 48% !important;
+    min-width: 140px !important;
+    max-width: 48% !important;
+    margin: 0 0 15px 0 !important;
+    float: none !important;
+    display: inline-block !important;
+    vertical-align: top !important;
+  }
+  
+  .show-products-page .service-img {
+    height: 120px !important;
+    width: 100% !important;
+  }
+}
+</style>  

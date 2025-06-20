@@ -3,63 +3,66 @@
 
 <head>
   <meta charset="UTF-8">
-   @include('home.css')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Notyf CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  @include('home.css')
+  <!-- Notyf CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 
-<body>
+<body class="show-products-page">
   <div class="hero_area">
     <!-- header section strats -->
     @include('home.header')
-    <!-- header section ends -->
+    <!-- end header section -->
+     
 
-<!-- ============================================================================================= -->
- <section class="shop_section layout_padding">
-    <div class="container">
-       <div class="heading_container heading_center">
-            <h2 style="color:orange">Latest Products</h2>
-            
-        </div>
+    <section class="shop_section layout_padding">
+        <div class="container">
+            <!-- ============================================================================================================== -->
+            <div class="heading_container heading_center">
+                <h2 style="color:orange">Latest Products</h2>
+                
+            </div>
 
-        <div class="services">
-            @foreach ($products as $product)
-                <div class="service-card">
-                <a href="{{ url('product_details',$product->id) }}">
-                    <img class="service-img" src="{{ asset($product->image) }}">
-                    <div class="service-content"> 
-                        <h3>{{ $product->title }}</h3>
-                        <div class="service-meta">
-                            <div class="service-price">TK.{{ $product->price }}</div>
+            <div class="services">
+                @foreach ($products as $product)
+                    <div class="service-card">
+                    <a href="{{ url('product_details',$product->id) }}">
+                        <img class="service-img" src="{{ asset($product->image) }}">
+                        <div class="service-content"> 
+                            <h3>{{ $product->title }}</h3>
+                            <div class="service-meta">
+                                <div class="service-price">TK.{{ $product->price }}</div>
+                            </div>
+                        </div>
+                        </a>
+                        
+                        <div class="service-content">
+                                @if($product->quantity > 0)
+                                    <div class="badge bg-success stock-count" id="stock-{{ $product->id }}">
+                                        In Stock {{ $product->quantity }}
+                                    </div>
+                                    <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add to Cart</button>
+                                @else
+                                    <div class="badge bg-danger stock-count" id="stock-{{ $product->id }}">
+                                        Out of Stock
+                                    </div>
+                                    <button class="btn btn-primary disabled" disabled>Out of Stock</button>
+                                @endif  
                         </div>
                     </div>
-                    </a>
-                    
-                    <div class="service-content">
-                            @if($product->quantity > 0)
-                                <button class="order-button" style="text-align: center;"  data-product-id="{{ $product->id }}">Add to Cart</button>
-                            @else
-                                <button class="btn btn-primary disabled" disabled>Out of Stock</button>
-                            @endif
-                        
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
+            <!-- ============================================================================================================== -->
         </div>
-        <!-- ============================================================================================================== -->
-    </div>
-</section>
+    </section>
 
-   
-
-
-<!-- ============================================================================================= -->
     <!-- footer section -->
     @include('home.footer')
     <!-- footer section -->
 
-  </section>
+  </div>
 
   <!-- end info section -->
 
@@ -69,10 +72,6 @@
   <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js') }}">
   </script>
   <script src="{{ asset('js/custom.js') }}"></script>
-
-
-
-
 
   <!-- SHop_selection's Script -->
   <!-- Notyf JS -->
