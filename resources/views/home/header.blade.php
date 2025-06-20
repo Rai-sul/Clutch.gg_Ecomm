@@ -9,7 +9,7 @@
         
         <!-- Logo in the center for mobile -->
         <a class="navbar-brand d-lg-none" href="/">
-            <img src="{{ asset('images/logo.png') }}" alt="Clutch.gg" height="40">
+            <img src="{{ asset('images/favicon.png') }}" alt="Clutch.gg" height="40">
         </a>
         
         <ul class="navbar-nav me-auto">

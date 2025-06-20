@@ -456,6 +456,21 @@ body {
       font-size: 0.8rem;
       margin-bottom: 8px;
     }
+
+    .service-content .add-to-cart-btn {
+    display: block;
+    margin: 8px auto 0 auto;
+    text-align: center;
+    background-color: #f05454;
+    color: #fff;
+    border: none;
+    border-radius: 32px;
+    padding: 7px 16px;
+    font-weight: 450;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.2s, color 0.2s;
+  }
   }
   
 </style>  
@@ -1536,6 +1551,19 @@ body {
   
   .show-products-page .service-img {
     height: 120px;
+  }
+
+  .show-products-page .btn-primary {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    display: block;
+    margin: 8px auto 0 auto;
+    text-align: center;
+    color: #fff;
+    border-radius: 32px;
+    padding: 7px 16px;
+    font-weight: 450;
+    font-size: 1rem;
   }
 }
 

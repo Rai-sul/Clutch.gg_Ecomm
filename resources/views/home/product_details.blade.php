@@ -40,11 +40,11 @@
             
             <div class="sold-count">
                 @if($data->quantity > 0)
-                    <div class="badge bg-success stock-count" style="font-size: 14px; padding: 8px 12px; border-radius: 8px; color: white; background-color: #dc3545; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" id="stock-{{ $data->id }}">
+                    <div class="stock-badge bg-success" style="font-size: 14px; padding: 8px 12px; border-radius: 8px; color: white; background-color: #28a745 !important; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: inline-block;" id="stock-{{ $data->id }}">
                         In Stock {{ $data->quantity }}
                     </div>
                 @else
-                    <div class="badge bg-danger stock-count" style="font-size: 14px; padding: 8px 12px; border-radius: 8px; color: white; background-color: #dc3545; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" id="stock-{{ $data->id }}">
+                    <div class="stock-badge bg-danger" style="font-size: 14px; padding: 8px 12px; border-radius: 8px; color: white; background-color: #dc3545 !important; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: inline-block;" id="stock-{{ $data->id }}">
                         Out of Stock
                     </div>
                 @endif
@@ -59,27 +59,27 @@
             </div>
             
              
-            <div class="trust-badges" style="display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; justify-content: left;">
+            <div class="trust-badges" style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; justify-content: left;">
                 <!-- Fast Delivery -->
-                <div class="badge" style="display: flex; align-items: center; gap: 10px;">
+                <div class="trust-badge" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background-color: rgba(255,255,255,0.08); border-radius: 8px;">
                     <i class="fas fa-shipping-fast" style="font-size: 1.5rem; color: #feb47b;"></i>
                     <span style="color: #fff; font-size: 0.95rem;">Fast Delivery</span>
                 </div>
 
                 <!-- Secure Checkout -->
-                <div class="badge" style="display: flex; align-items: center; gap: 10px;">
+                <div class="trust-badge" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background-color: rgba(255,255,255,0.08); border-radius: 8px;">
                     <i class="fas fa-lock" style="font-size: 1.5rem; color: #feb47b;"></i>
                     <span style="color: #fff; font-size: 0.95rem;">Secure Checkout</span>
                 </div>
 
                 <!-- Satisfaction Guaranteed -->
-                <div class="badge" style="display: flex; align-items: center; gap: 10px;">
+                <div class="trust-badge" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background-color: rgba(255,255,255,0.08); border-radius: 8px;">
                     <i class="fas fa-check-circle" style="font-size: 1.5rem; color: #feb47b;"></i>
                     <span style="color: #fff; font-size: 0.95rem;">Satisfaction Guaranteed</span>
                 </div>
 
                 <!-- Privacy Protected -->
-                <div class="badge" style="display: flex; align-items: center; gap: 10px;">
+                <div class="trust-badge" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background-color: rgba(255,255,255,0.08); border-radius: 8px;">
                     <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: #feb47b;"></i>
                     <span style="color: #fff; font-size: 0.95rem;">Privacy Protected</span>
                 </div>
@@ -134,7 +134,7 @@
                 <div style="color: #fff;">No</div>
             </div>
         </div>
-    
+    </div>
 
     <script>
         let currentSlide = 0;
