@@ -15,18 +15,108 @@
     <!-- Mobile-specific styles -->
     <style>
         /* Mobile responsive styles for cart page */
+        .checkout-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .checkout-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .delivery-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+            
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .delivery-option:hover {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+        
+        .delivery-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+        
+        .delivery-option span {
+            color: white;
+            font-weight: 500;
+        }
+        
+        .note-text {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                max-width: 700px;
+            }
+        }
+        
         @media (max-width: 767px) {
             .checkout-container {
                 grid-template-columns: 1fr;
-                padding: 0;
+                padding: 0 1rem;
                 margin: 1rem auto;
                 gap: 1rem;
             }
             
             .checkout-card {
-                padding: 1rem;
+                padding: 1.25rem;
                 margin-bottom: 1rem;
-                border-radius: 8px;
+                border-radius: 10px;
             }
             
             .checkout-title {
@@ -40,12 +130,12 @@
             }
             
             .form-control {
-                padding: 0.6rem;
+                padding: 0.7rem;
                 font-size: 0.95rem;
             }
             
             .delivery-option {
-                padding: 0.6rem;
+                padding: 0.7rem;
             }
             
             .cart-items {
@@ -57,8 +147,8 @@
             }
             
             .cart-item-img {
-                width: 50px;
-                height: 50px;
+                width: 60px;
+                height: 60px;
             }
             
             .controls {
@@ -86,49 +176,177 @@
                 margin-top: 1rem;
                 font-size: 0.85rem;
             }
+        }
+        
+        /* Improve cart item display on small screens */
+        @media (max-width: 576px) {
+            .delivery-options {
+                grid-template-columns: 1fr;
+            }
             
-            /* Improve cart item display on very small screens */
-            @media (max-width: 430px) {
-                .cart-items {
-                    display: block;
-                }
-                
-                .cart-items thead {
-                    display: none;
-                }
-                
-                .cart-items tbody, .cart-items tr, .cart-items td {
-                    display: block;
-                    width: 100%;
-                    text-align: left;
-                }
-                
-                .cart-items tr {
-                    margin-bottom: 1rem;
-                    padding-bottom: 1rem;
-                    border-bottom: 1px solid var(--border);
-                    position: relative;
-                }
-                
-                .cart-items td {
-                    border: none;
-                    padding: 0.4rem 0;
-                }
-                
-                .cart-items td:nth-child(1) {
-                    font-weight: bold;
-                }
-                
-                .cart-items td:nth-child(4) {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                }
-                
-                .stock-info {
-                    font-size: 0.8rem;
-                    margin-top: 0.3rem;
-                }
+            .cart-items thead {
+                display: none;
+            }
+            
+            .cart-items, .cart-items tbody, .cart-items tr {
+                display: block;
+                width: 100%;
+            }
+            
+            .cart-items tr {
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+                position: relative;
+            }
+            
+            .cart-items td {
+                display: block;
+                text-align: right;
+                padding: 0.4rem 0;
+                border: none;
+            }
+            
+            .cart-items td:before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                color: white;
+            }
+            
+            .cart-items td:last-child {
+                position: absolute;
+                top: 0;
+                right: 0;
+                border: none;
+            }
+            
+            .product-info-container {
+                justify-content: flex-end;
+            }
+            
+            .product-price-mobile {
+                display: block;
+            }
+            
+            .cart-items td:nth-child(3) {
+                display: none;
+            }
+        }
+        
+        /* Very small screens */
+        @media (max-width: 430px) {
+            .checkout-container {
+                padding: 0 0.75rem;
+                margin: 0.75rem auto;
+            }
+            
+            .checkout-card {
+                padding: 1rem;
+                border-radius: 8px;
+            }
+            
+            .checkout-title {
+                font-size: 1.1rem;
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+            }
+            
+            .form-control {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+            
+            .cart-item-img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .product-title {
+                font-size: 0.9rem;
+            }
+            
+            .quantity-box {
+                padding: 3px 8px;
+            }
+            
+            .quantity-box button {
+                width: 22px;
+                height: 22px;
+                font-size: 14px;
+            }
+            
+            .quantity-number {
+                margin: 0 8px;
+                font-size: 0.9rem;
+            }
+            
+            .btn-confirm {
+                padding: 0.7rem;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 360px) {
+            .checkout-container {
+                padding: 0 0.5rem;
+                margin: 0.5rem auto;
+            }
+            
+            .checkout-card {
+                padding: 0.75rem;
+            }
+            
+            .checkout-title {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .form-group {
+                margin-bottom: 0.75rem;
+            }
+            
+            .form-label {
+                font-size: 0.85rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .form-control {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            .delivery-option {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            .cart-item-img {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .product-title {
+                font-size: 0.85rem;
+            }
+            
+            .quantity-box button {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+            }
+            
+            .quantity-number {
+                margin: 0 6px;
+                font-size: 0.85rem;
+            }
+            
+            .btn-confirm {
+                padding: 0.6rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -150,7 +368,7 @@
                     @csrf
                     
                     <div class="form-group">
-                        <label for="name" class="form-label">Name</label>
+                        <label for="name" class="form-label" style="color: white;">Name</label>
                         @if(!Auth::user())
                             <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
                         @else
@@ -159,7 +377,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="phone" class="form-label">Phone Number</label>
+                        <label for="phone" class="form-label" style="color: white;">Phone Number</label>
                         <div style="display: flex; align-items: center;">
                             <span style="padding: 0.75rem; background: var(--gray); border: 1px solid var(--border); border-right: none; border-radius: 8px 0 0 8px;">+880</span>
                             @if(!Auth::user())
@@ -171,7 +389,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="email" class="form-label">Email Address (Optional)</label>
+                        <label for="email" class="form-label" style="color: white;">Email Address (Optional)</label>
                         @if(!Auth::user())
                             <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email">
                         @else
@@ -180,7 +398,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="address" class="form-label">Delivery Address</label>
+                        <label for="address" class="form-label" style="color: white;">Delivery Address</label>
                         @if(!Auth::user())
                             <input type="text" id="address" name="address" class="form-control" placeholder="House no, thana, street, direction etc" required>
                         @else
@@ -189,7 +407,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Delivery Zone</label>
+                        <label class="form-label" style="color: white;">Delivery Zone</label>
                         <div class="delivery-options">
                             <label class="delivery-option">
                                 <input type="radio" name="delivery_zone" value="dhaka" required>
@@ -207,7 +425,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="note" class="form-label">Delivery Instructions (Optional)</label>
+                        <label for="note" class="form-label" style="color: white;">Delivery Instructions (Optional)</label>
                         <textarea id="note" name="note" class="form-control" rows="3" placeholder="Add your delivery instructions"></textarea>
                     </div>
                 </div>
@@ -217,16 +435,16 @@
                     <div class="checkout-card order-card">
                         <div class="order-header">
                             <h2 class="checkout-title">Your Order</h2>
-                            <span class="item-count">{{ count($cart) }} {{ count($cart) == 1 ? 'item' : 'items' }}</span>
+                            <span class="item-count" style="color: white;">{{ count($cart) }} {{ count($cart) == 1 ? 'item' : 'items' }}</span>
                         </div>
                         
                         <div class="cart-items-container">
                             <table class="cart-items">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
+                                        <th style="color: white;">Product</th>
+                                        <th style="color: white;">Qty</th>
+                                        <th style="color: white;">Price</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -240,7 +458,7 @@
                                         data-price="{{ $caart->product->price }}"
                                         class="cart-item-row"
                                     >
-                                        <td>
+                                        <td data-label="Product">
                                             <div class="product-info-container">
                                                 <div class="product-image-wrapper">
                                                     <img src="{{ asset($caart->product->image) }}" class="cart-item-img" alt="{{ $caart->product->title }}">
@@ -251,11 +469,11 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td data-label="Quantity">
                                             <div class="controls">
                                                 <div class="quantity-box">
                                                     <button type="button" class="decreaseBtn" aria-label="Decrease quantity">−</button>
-                                                    <span class="quantity-number">{{ $caart->quantity }}</span>
+                                                    <span class="quantity-number" style="color: white;">{{ $caart->quantity }}</span>
                                                     <button type="button" class="increaseBtn" aria-label="Increase quantity">+</button>
                                                 </div>
                                             </div>
@@ -263,10 +481,10 @@
                                                 <i class="fas fa-box"></i> <span class="stockInfo">{{ $caart->product->quantity }} in stock</span>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td data-label="Price">
                                             <span class="total-price">{{ $caart->product->price * $caart->quantity }} BDT</span>
                                         </td>
-                                        <td>
+                                        <td class="delete-cell" data-label="">
                                             <a href="{{ url('remove_cart', $caart->id) }}" class="btn-remove" aria-label="Remove item">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
@@ -293,7 +511,7 @@
                         <h2 class="checkout-title">Order Summary</h2>
                         
                         <div class="form-group payment-method-group">
-                            <label class="form-label">Payment Method</label>
+                            <label class="form-label" style="color: white;">Payment Method</label>
                             <div class="delivery-options">
                                 <label class="delivery-option payment-option">
                                     <input type="radio" name="payment_method" value="cod" checked required>

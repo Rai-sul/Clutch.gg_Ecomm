@@ -52,7 +52,7 @@
             </div>
             
             <div class="variant-section">
-                <div class="variant-title">CHOOSE YOUR BUDDY</div>
+                <div class="variant-title">CHOOSE YOUR WEAPON</div>
                 <div class="variant-options">
                     <div class="variant-option selected">{{$data->title}}</div>
                 </div>

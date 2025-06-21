@@ -989,7 +989,7 @@ body {
       }
       
       .checkout-card {
-          background: linear-gradient(#95A5A6);
+          background: rgba(0,0,0,1);
           border-radius: 12px;
           box-shadow: 0 4px 12px rgba(0,0,0,0.05);
           padding: 2rem;
@@ -1001,7 +1001,7 @@ body {
           font-size: 1.5rem;
           font-weight: 600;
           margin-bottom: 1.5rem;
-          color: var(--dark);
+          color: white;
           border-bottom: 1px solid var(--border);
       }
       
