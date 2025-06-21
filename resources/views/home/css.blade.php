@@ -7,8 +7,8 @@
   right: 0 !important;
   width: 100% !important;
   z-index: 9999 !important;
-  background-color: #1D2327 !important;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+  background-color: rgba(0, 0, 0, 1) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,1) !important;
 }
 
 body {
@@ -44,12 +44,25 @@ body {
 
   <style>
   .header-section {
-    background: linear-gradient(135deg, #2c3e50, #4a6491);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
     padding: 0.5rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
+  }
+  
+  .navbar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
   
   .navbar-brand .logo-text {
@@ -67,84 +80,170 @@ body {
     margin: 0 0.25rem;
     border-radius: 4px;
     transition: all 0.3s ease;
+    height: 45px;
+    display: flex;
+    align-items: center;
   }
   
   .nav-link:hover, .nav-link.active {
     color: white !important;
     background: rgba(255, 255, 255, 0.1);
   }
-  
-  .search-form .form-control {
-      border-radius: 20px 0 0 20px;
-      border: none;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-      padding: 0.5rem 1rem;
-      width: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s ease-in-out;
-      font-size: 0.95rem;
-      overflow: hidden;
+
+  /* Search Form Styles */
+  .search-form {
+    display: flex;
+    align-items: center;
+    position: relative;
   }
-  
+
+  .search-form .form-control {
+    border-radius: 20px 0 0 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+  }
+
+  .search-form.active .form-control {
+    width: 220px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .search-form .form-control:focus {
     width: 250px;
   }
 
+  .btn-search {
+    border-radius: 0 20px 20px 0;
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+  }
+
+  .btn-search:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-search i {
+    font-size: 16px;
+    color: white;
+  }
+
+  /* Suggestions Dropdown */
   .search-suggestions {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%;               /* Full width of search input */
-    max-height: 500px;         /* Make it tall enough to show many results */
-    overflow-y: auto;
-    background-color: #1f1f1f; /* Dark theme background */
-    border-radius: 12px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-    z-index: 1050;
+    width: 100%;
+    background-color: #fff;
+    color: #333;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
     padding: 0.5rem 0;
-    transition: all 0.3s ease-in-out;
-    border: 1px solid #2c2c2c;
-}
-  
-  /* Search Button */
-  .btn-search {
-      border-radius: 0 20px 20px 0;
-      background: black;
-      border: none;
-      padding: 0.5rem 1rem;
-      transition: background-color 0.3s ease;
+    z-index: 1000;
+    margin-top: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    font-size: 0.95rem;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
   }
 
-  .btn-search:hover {
-      background-color: #e2e6ea;
-  }
-
-  /* On focus input expands a bit more (optional) */
-    .search-form.active .form-control:focus {
-        width: 200px;
+  /* Mobile Specific */
+  @media (max-width: 992px) {
+    .search-form {
+      margin-top: 10px;
     }
 
-    /* Mobile Responsiveness */
-    @media (max-width: 992px) {
-        .search-form.active .form-control {
-            width: 180px;
-        }
-      }
+    .search-form .form-control {
+      width: 0;
+    }
+
+    .search-form.active .form-control {
+      width: 180px;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .search-form {
+      position: absolute !important;
+      right: 85px !important; /* Increased space from right to move it left */
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-form .form-control {
+      width: 0;
+      transition: width 0.3s ease;
+      border-radius: 20px;
+      padding: 6px 12px;
+    }
+
+    .search-form.active .form-control {
+      width: 160px;
+    }
+
+    .btn-search {
+      padding: 6px 14px;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-radius: 50px;
+      color: #333;
+      transition: all 0.3s ease;
+      margin-right: 8px;
+    }
+
+    .btn-search:hover {
+      background-color: #e0e0e0;
+    }
+  }
   
   .user-icon {
     font-size: 1.5rem;
     color: white;
   }
   
+  /* Modern Cart Icon Styles */
   .cart-icon {
     color: white;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     text-decoration: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
   }
-  
+
+  .cart-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .cart-icon:active {
+    transform: translateY(0);
+  }
+
   .cart-badge {
     position: absolute;
     top: -8px;
@@ -152,12 +251,71 @@ body {
     background: #f05454;
     color: white;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 600;
+    border: 2px solid rgba(0, 0, 0, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: cartBadgePop 0.3s ease-out;
+  }
+
+  @keyframes cartBadgePop {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Cart icon hover effect */
+  .cart-icon i {
+    transition: transform 0.3s ease;
+  }
+
+  .cart-icon:hover i {
+    transform: scale(1.1);
+  }
+
+  /* Mobile specific cart styles */
+  @media (max-width: 430px) {
+    .cart-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.3rem;
+      padding: 8px;
+      margin: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .cart-icon:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .cart-badge {
+      top: -6px;
+      right: -6px;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+    }
+  }
+
+  /* Tablet and medium screens */
+  @media (min-width: 431px) and (max-width: 992px) {
+    .cart-icon {
+      margin-left: 10px;
+    }
   }
   
   .dropdown-menu {
@@ -204,118 +362,13 @@ body {
   }
   
   @media (max-width: 992px) {
-    .search-form .form-control {
-      width: 150px;
-    }
-    
-    .search-form .form-control:focus {
-      width: 150px;
-    }
-  }
-  
-  @media (max-width: 768px) {
     .user-actions {
       margin-top: 1rem;
       padding-top: 1rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
-    .search-form {
-        display: flex;
-        align-items: center;
-        position: relative;
-        transition: all 0.3s ease;
-    }
-
-    
-
   }
-
-
-
-
-  /* For My Order History section  */
-  .orders-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .orders-card {
-            background: linear-gradient(#95A5A6);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            padding: 2rem;
-            overflow-x: auto;
-        }
-        
-        .orders-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.75rem;
-        }
-        
-        .orders-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .orders-table th {
-            text-align: left;
-            padding: 1rem;
-            background-color: #95A5A6;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 2px solid var(--border);
-        }
-        
-        .orders-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-        }
-        
-        .orders-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .orders-table tr:hover {
-            background-color: #B5B47DFF;
-        }
-        
-        .product-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-        
-        .status {
-            display: inline-block;
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        
-        @media (max-width: 768px) {
-            .orders-card {
-                padding: 1rem;
-            }
-            
-            .orders-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-        }
-</style>
-
-
+  </style>
 
   <!-- For header ends -->
 
@@ -502,6 +555,7 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
   }
 
   .category-content h3 {
@@ -514,6 +568,7 @@ body {
   .category-content p {
     color: var(--secondary);
     margin-bottom: 15px;
+    text-align: center;
   }
 
   /* .box-4 {
@@ -554,6 +609,12 @@ body {
     transition: transform 0.5s ease;
   }
 
+  .category-content .btn.btn-outline {
+    display: block;
+    margin-top: auto;
+    text-align: center;
+  }
+
   /* --- Mobile Media Query for Category Card (Samsung Galaxy A51/A71, 360-412px) --- */
   @media (min-width: 360px) and (max-width: 850px) {
     .services, .categories {
@@ -570,10 +631,12 @@ body {
     }
     .service-img, .category-img {
       height: 120px;
-
     }
     .service-content, .category-content {
       padding: 8px 6px 12px 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .service-content h3, .category-content h3 {
       font-size: 1rem;
@@ -586,6 +649,35 @@ body {
     .btn.btn-outline, .add-to-cart-btn {
       font-size: 0.95rem;
       padding: 6px 10px;
+      margin-top: auto;
+    }
+  }
+
+  /* Additional iPad and tablet specific styles */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .category-card {
+      width: 31%;
+      min-height: 400px;
+    }
+    
+    .category-img {
+      height: 180px;
+    }
+    
+    .category-content {
+      padding: 15px;
+    }
+  }
+
+  /* iPhone SE and smaller devices */
+  @media (max-width: 359px) {
+    .category-card {
+      width: 100%;
+      min-height: 300px;
+    }
+    
+    .category-img {
+      height: 140px;
     }
   }
 
@@ -593,10 +685,9 @@ body {
   .service-content .add-to-cart-btn,
   .service-content .btn.btn-outline {
     display: block;
-    margin: 16px auto 0 auto;
+    margin-top: auto;
     text-align: center;
   }
-
 </style>
 
 
@@ -614,7 +705,6 @@ body {
 
         body {
             font-family: 'Arial', sans-serif;
-            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
             background: linear-gradient(#1F2937);
             min-height: 100vh;
         }
@@ -1090,7 +1180,7 @@ body {
       }
 
 
-              .controls {
+        .controls {
             display: flex;
             gap: 10px;
             align-items: center;
@@ -1180,7 +1270,9 @@ body {
   
   .navbar {
     position: relative;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
   }
   
   .navbar-brand {
@@ -1192,10 +1284,8 @@ body {
   }
   
   .mobile-nav-toggle {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: relative;
+    left: 0;
     background: none;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 4px;
@@ -1205,14 +1295,52 @@ body {
     cursor: pointer;
     z-index: 1050;
   }
+
+  /* Mobile Search Form */
+  .search-form {
+    position: absolute !important;
+    right: 60px !important; /* Space for cart icon */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    z-index: 1050 !important;
+  }
+
+  .search-form .form-control {
+    width: 0;
+  }
+
+  .search-form.active .form-control {
+    width: 160px;
+  }
+
+  .btn-search {
+    padding: 6px 15px;
+    background: transparent;
+  }
+
+  .btn-search i {
+    color: white;
+  }
   
+  /* Cart Icon */
+  a[href="{{ url('mycart') }}"] {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px;
+    margin: 0;
+  }
+  
+  /* Mobile Navigation Menu */
   .navbar-nav {
     position: fixed;
     top: 0;
     left: -100%;
     width: 80%;
     height: 100vh;
-    background: #2c3e50;
+    background: rgba(0,0,0,1);
     flex-direction: column;
     padding: 80px 20px 20px;
     transition: left 0.3s ease;
@@ -1238,34 +1366,6 @@ body {
     border-radius: 8px;
   }
   
-  .search-form {
-    position: absolute;
-    right: 60px;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    width: auto;
-  }
-  
-  .search-form .form-control {
-    display: none;
-  }
-  
-  .search-form .btn-search {
-    background: none;
-    border: none;
-    padding: 8px;
-  }
-  
-  a[href="{{ url('mycart') }}"] {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 8px;
-    margin: 0;
-  }
-  
   /* Show My Orders in mobile menu */
   .mobile-only-nav {
     display: block;
@@ -1288,62 +1388,123 @@ body {
     font-size: 24px;
     cursor: pointer;
   }
-  
-  /* Mobile auth button styles */
-  .mobile-only-nav .btn-link {
-    background: none;
-    border: none;
-    color: white;
-    text-decoration: none;
-    padding: 0;
-    font-size: 18px;
+
+  /* Search suggestions on mobile */
+  #search-suggestions {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: auto;
+    right: 0;
+    width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1060;
   }
 }
 
 /* ============================================================ Hero slider designs ============================================================ */
-  .hero-slider {
+    /* Fullscreen + fade effect */
+    .carousel,
+    .carousel-inner,
+    .carousel-item {
+      height: 100vh;
+    }
+
+    .carousel-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-item.active {
+      position: relative;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    /* Hero Design */
+    .hero-slider {
       background: linear-gradient(135deg, #1a1a2e, #16213e);
       color: white;
       padding: 4rem 0;
       overflow: hidden;
       position: relative;
     }
-    
+
     .hero-content {
       padding: 2rem;
     }
-    
+
     .hero-content h1 {
       font-size: 3.5rem;
       font-weight: 700;
       margin-bottom: 1.5rem;
       line-height: 1.2;
     }
-    
+
     .hero-content h1 span {
       color: #f05454;
-      display: inline-block;
     }
-    
+
     .hero-content p {
       font-size: 1.1rem;
       margin-bottom: 2rem;
       opacity: 0.9;
       line-height: 1.6;
     }
-    
+
     .hero-image {
-      position: relative;
       text-align: center;
     }
-    
+
     .hero-image img {
       max-width: 100%;
       height: auto;
       border-radius: 8px;
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     }
-    
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-image {
+        margin-top: 2rem;
+      }
+
+      .hero-slider {
+        padding: 2rem 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .hero-image {
+        margin-top: 1.5rem;
+      }
+    }
+
     .btn-primary {
       background-color: #f05454;
       border: none;
@@ -1421,113 +1582,10 @@ body {
       font-size: 0.9rem;
     }
     
-    .carousel-indicators button {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin: 0 5px;
-      background-color: rgba(255, 255, 255, 0.5);
-      border: none;
-    }
-    
-    .carousel-indicators button.active {
-      background-color: #f05454;
-    }
-    
-    .carousel-control-prev, .carousel-control-next {
-      width: 5%;
-    }
-    
-    .carousel-control-prev-icon, .carousel-control-next-icon {
-      background-size: 60%;
-      background-color: rgba(240, 84, 84, 0.7);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-    }
+
     
     /* Animation classes */
-    .animated {
-      animation-duration: 1s;
-      animation-fill-mode: both;
-    }
-    
-    .fadeInUp {
-      animation-name: fadeInUp;
-    }
-    
-    .fadeIn {
-      animation-name: fadeIn;
-    }
-    
-    .delay-1 {
-      animation-delay: 0.3s;
-    }
-    
-    .delay-2 {
-      animation-delay: 0.6s;
-    }
-    
-    .delay-3 {
-      animation-delay: 0.9s;
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-    
-    @media (max-width: 992px) {
-      .hero-content h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero-image {
-        margin-top: 2rem;
-      }
-      
-      .hero-slider {
-        padding: 2rem 0;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .hero-content h1 {
-        font-size: 2rem;
-      }
-      
-      .btn-primary, .btn-outline {
-        padding: 0.6rem 1.5rem;
-        margin-bottom: 0.5rem;
-      }
-    }
+
 
 
 /* Specific fix for show_products page on Samsung Galaxy A51/A71 */

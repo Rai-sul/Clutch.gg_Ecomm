@@ -10,16 +10,16 @@
 </head>
 
 <body>
-  <div class="hero_area">
+  
     <!-- header section strats -->
     @include('home.header')
 
     <!-- end header section -->
     <!-- slider section -->
-  @include('home.slider')
+    @include('home.slider')
    
     <!-- end slider section -->
-  </div>
+  
   <!-- end hero area -->
 
   <!-- shop section -->
@@ -62,6 +62,25 @@
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
   @include('home.cartJS')
+  
+  <!-- Initialize Bootstrap components after all scripts are loaded -->
+  <script>
+    $(document).ready(function() {
+      // Reinitialize the carousel for automatic sliding only
+      if (typeof bootstrap !== 'undefined' && document.getElementById('heroCarousel')) {
+        var heroCarousel = new bootstrap.Carousel(document.getElementById('heroCarousel'), {
+          interval: 3000,
+          wrap: true,
+          touch: false,
+          keyboard: false,
+          pause: false // Don't pause on hover
+        });
+        
+        // Force start the carousel
+        heroCarousel.cycle();
+      }
+    });
+  </script>
 </body>
 
 </html>

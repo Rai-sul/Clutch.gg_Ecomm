@@ -48,7 +48,7 @@
                                     <div class="badge bg-danger stock-count" id="stock-{{ $product->id }}">
                                         Out of Stock
                                     </div>
-                                    <button class="btn btn-primary disabled" disabled>Out of Stock</button>
+                                    <button class="btn btn-primary add-to-cart-btn" disabled>Out of Stock</button>
                                 @endif  
                         </div>
                     </div>

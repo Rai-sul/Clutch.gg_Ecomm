@@ -70,12 +70,12 @@
       <!-- Search Form -->
       <form class="search-form me-3 d-flex position-relative" autocomplete="off">
         <div class="input-group">
-          <input type="text" class="form-control" id="product-search" placeholder="Search...">
-          <button type="button" class="btn btn-search" id="toggle-search" style="color:white">
+          <input type="text" class="form-control" id="product-search" placeholder="Search products...">
+          <button type="button" class="btn btn-search" id="toggle-search">
             <i class="fas fa-search"></i>
           </button>
         </div>
-        <div id="search-suggestions" class="dropdown-menu show w-100" style="display: none; max-height: 300px; overflow-y: auto; position: absolute; top: 100%; z-index: 1000;"></div>
+        <div id="search-suggestions" class="dropdown-menu w-100" style="display: none; max-height: 300px; overflow-y: auto;"></div>
       </form>
 
       <!-- Desktop Only: My Orders -->
@@ -119,32 +119,50 @@
 
 <!-- JavaScript for mobile menu toggle and search -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-  const mobileNavClose = document.querySelector('.mobile-nav-close');
-  const navbarNav = document.querySelector('.navbar-nav');
+  document.addEventListener('DOMContentLoaded', function () {
+    // Mobile Navigation Toggle
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mobileNavClose = document.querySelector('.mobile-nav-close');
+    const navbarNav = document.querySelector('.navbar-nav');
 
-  if (mobileNavToggle && navbarNav) {
-    mobileNavToggle.addEventListener('click', function () {
-      navbarNav.classList.add('show');
+    if (mobileNavToggle) {
+      mobileNavToggle.addEventListener('click', function() {
+        navbarNav.classList.add('show');
+      });
+    }
+
+    if (mobileNavClose) {
+      mobileNavClose.addEventListener('click', function() {
+        navbarNav.classList.remove('show');
+      });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (navbarNav.classList.contains('show') && 
+          !navbarNav.contains(e.target) && 
+          !mobileNavToggle.contains(e.target)) {
+        navbarNav.classList.remove('show');
+      }
     });
-  }
 
-  if (mobileNavClose && navbarNav) {
-    mobileNavClose.addEventListener('click', function () {
-      navbarNav.classList.remove('show');
-    });
-  }
+    // Search functionality
+    const searchForm = document.querySelector('.search-form');
+    const searchInput = searchForm.querySelector('.form-control');
+    const searchButton = document.getElementById('toggle-search');
+    const suggestionBox = document.getElementById('search-suggestions');
 
-  // Search functionality
-  const searchForm = document.querySelector('.search-form');
-  const searchInput = searchForm ? searchForm.querySelector('input') : null;
-  const searchButton = searchForm ? searchForm.querySelector('button') : null;
-
-  if (searchForm && searchInput && searchButton) {
+    // Toggle visibility of search input
     searchButton.addEventListener('click', function () {
-      if (searchInput.value.trim() !== '') {
-        window.location.href = '/show_products?search=' + encodeURIComponent(searchInput.value.trim());
+      if (searchForm.classList.contains('active')) {
+        // Perform search
+        if (searchInput.value.trim() !== '') {
+          window.location.href = '/show_products?search=' + encodeURIComponent(searchInput.value.trim());
+        }
+      } else {
+        // Activate search bar
+        searchForm.classList.add('active');
+        searchInput.focus();
       }
     });
 
@@ -156,6 +174,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
-  }
-});
+
+    // Optional: Click outside to close search
+    document.addEventListener('click', function (e) {
+      if (!searchForm.contains(e.target)) {
+        searchForm.classList.remove('active');
+      }
+    });
+  });
 </script>
