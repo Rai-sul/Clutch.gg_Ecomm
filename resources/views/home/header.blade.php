@@ -34,30 +34,6 @@
                 <i class="fa fa-box me-2"></i> My Orders
               </a>
             </li>
-
-            @if (Route::has('login'))
-              @auth
-                <li class="nav-item">
-                  <form method="POST" action="{{ route('logout') }}" class="nav-link">
-                    @csrf
-                    <button type="submit" class="btn btn-link p-0 text-white">
-                      <i class="fas fa-sign-out-alt me-2"></i> Logout
-                    </button>
-                  </form>
-                </li>
-              @else
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url('/login') }}">
-                    <i class="fas fa-sign-in-alt me-2"></i> Login
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url('/register') }}">
-                    <i class="fas fa-user-plus me-2"></i> Register
-                  </a>
-                </li>
-              @endauth
-            @endif
           </div>
 
           <!-- Close button for mobile -->
@@ -93,25 +69,7 @@
       </a>
 
       <!-- Desktop Only: Auth Buttons -->
-      @if (Route::has('login'))
-        <div class="d-none d-lg-block">
-          @auth
-            <form method="POST" action="{{ route('logout') }}">
-              @csrf
-              <button class="btn btn-outline-light me-2" type="submit">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </button>
-            </form>
-          @else
-            <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">
-              <i class="fas fa-sign-in-alt me-1"></i> Login
-            </a>
-            <a href="{{ url('/register') }}" class="btn btn-primary">
-              <i class="fas fa-user-plus me-1"></i> Register
-            </a>
-          @endauth
-        </div>
-      @endif
+
 
     </div>
   </nav>

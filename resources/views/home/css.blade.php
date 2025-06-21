@@ -1263,7 +1263,7 @@ body {
 <!-- Mobile Navigation and Card Styles -->
 <style>
 /* Mobile Navigation for Samsung Galaxy A51/A71 */
-@media (max-width: 430px) {
+@media (max-width: 992px) {
   .header-section {
     padding: 10px 0;
   }
@@ -1402,192 +1402,257 @@ body {
   }
 }
 
-/* ============================================================ Hero slider designs ============================================================ */
-    /* Fullscreen + fade effect */
-    .carousel,
-    .carousel-inner,
-    .carousel-item {
-      height: 100vh;
-    }
+/* Original Mobile Styles - Only for screens <= 430px */
+/* These styles will override any conflicting styles from the above media query */
+@media (max-width: 430px) {
+  /* Any specific styles that should ONLY apply to screens <= 430px */
+  /* Most styles are already covered by the 992px media query above */
+}
 
-    .carousel-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
+/* Desktop styles - Only for screens > 992px */
+@media (min-width: 993px) {
+  /* Original desktop styles remain unchanged */
+  .header-section {
+    padding: 0.5rem 0;
+  }
+  
+  .navbar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    height: 45px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .search-form.active .form-control {
+    width: 220px;
+  }
+  
+  .cart-icon {
+    color: white;
+    font-size: 1.4rem;
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+</style>  
 
-    .carousel-item.active {
-      position: relative;
-      opacity: 1;
-      z-index: 1;
-    }
+<!-- ============================================================ Hero slider designs ============================================================ -->
+<style>
+  /* Fullscreen + fade effect */
+  .carousel,
+  .carousel-inner,
+  .carousel-item {
+    height: 100vh;
+  }
 
-    /* Hero Design */
-    .hero-slider {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      color: white;
-      padding: 4rem 0;
-      overflow: hidden;
-      position: relative;
-    }
+  .carousel-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
 
-    .hero-content {
-      padding: 2rem;
-    }
+  .carousel-item.active {
+    position: relative;
+    opacity: 1;
+    z-index: 1;
+  }
 
+  /* Hero Design */
+  .hero-slider {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    padding: 4rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-content {
+    padding: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-content h1 span {
+    color: #f05454;
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .hero-image {
+    text-align: center;
+  }
+
+  .hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
     .hero-content h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-
-    .hero-content h1 span {
-      color: #f05454;
-    }
-
-    .hero-content p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
-      line-height: 1.6;
+      font-size: 2.5rem;
     }
 
     .hero-image {
-      text-align: center;
-    }
-
-    .hero-image img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-      .hero-content h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-image {
-        margin-top: 2rem;
-      }
-
-      .hero-slider {
-        padding: 2rem 0;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-content {
-        text-align: center;
-        padding: 1.5rem;
-      }
-
-      .hero-content h1 {
-        font-size: 2rem;
-      }
-
-      .hero-content p {
-        font-size: 1rem;
-      }
-
-      .hero-image {
-        margin-top: 1.5rem;
-      }
-    }
-
-    .btn-primary {
-      background-color: #f05454;
-      border: none;
-      padding: 0.75rem 2rem;
-      font-weight: 600;
-      margin-right: 1rem;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-primary:hover {
-      background-color: #d93b3b;
-      transform: translateY(-2px);
-    }
-    
-    .btn-outline {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      padding: 0.75rem 2rem;
-      font-weight: 600;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
-    
-    .featured-games {
       margin-top: 2rem;
     }
-    
-    .featured-games span {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-    
-    .game-logos img {
-      height: 30px;
-      margin-right: 1rem;
-      opacity: 0.8;
-      transition: opacity 0.3s ease;
-    }
-    
-    .game-logos img:hover {
-      opacity: 1;
-    }
-    
-    .badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #f05454;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      animation-duration: 2s;
-    }
-    
-    .discount-tag {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #4CAF50;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    
 
-    
-    /* Animation classes */
+    .hero-slider {
+      padding: 2rem 0;
+    }
+  }
 
+  @media (max-width: 768px) {
+    .hero-content {
+      text-align: center;
+      padding: 1.5rem;
+    }
 
+    .hero-content h1 {
+      font-size: 2rem;
+    }
 
+    .hero-content p {
+      font-size: 1rem;
+    }
+
+    .hero-image {
+      margin-top: 1.5rem;
+    }
+  }
+
+  .btn-primary {
+    background-color: #f05454;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    margin-right: 1rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #d93b3b;
+    transform: translateY(-2px);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .featured-games {
+    margin-top: 2rem;
+  }
+  
+  .featured-games span {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  .game-logos img {
+    height: 30px;
+    margin-right: 1rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+  
+  .game-logos img:hover {
+    opacity: 1;
+  }
+  
+  .badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f05454;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    animation-duration: 2s;
+  }
+  
+  .discount-tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  /* Animation classes */
+</style>
+
+<!-- Product Cards and Specific Page Styles -->
+<style>
 /* Specific fix for show_products page on Samsung Galaxy A51/A71 */
 @media (min-width: 360px) and (max-width: 850px) {
   .show-products-page .services {
@@ -1647,6 +1712,232 @@ body {
   .show-products-page .service-img {
     height: 120px !important;
     width: 100% !important;
+  }
+}
+
+/* Specific fixes for iPhone SE (375x667), Galaxy S8+ (360x740), and Galaxy Z Fold 5 (344x882) */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 380px),
+  screen and (width: 375px) and (height: 667px),
+  screen and (width: 360px) and (height: 740px),
+  screen and (width: 344px) and (height: 882px) {
+  
+  /* Header adjustments for narrower screens */
+  .header-section {
+    padding: 8px 0;
+  }
+  
+  .navbar-brand .logo-text {
+    font-size: 1.2rem;
+  }
+  
+  /* Search form positioning */
+  .search-form {
+    right: 50px !important;
+  }
+  
+  .search-form.active .form-control {
+    width: 130px;
+  }
+  
+  /* Mobile Navigation Menu */
+  .navbar-nav {
+    width: 85%;
+  }
+  
+  /* Card adjustments */
+  .service-card, .category-card {
+    width: 48% !important;
+    min-width: 130px !important;
+    min-height: 300px !important;
+  }
+  
+  .service-img, .category-img {
+    height: 110px !important;
+  }
+  
+  .service-content h3, .category-content h3 {
+    font-size: 0.9rem !important;
+  }
+  
+  .service-price, .category-content p {
+    font-size: 0.85rem !important;
+  }
+  
+  .btn.btn-outline, .add-to-cart-btn {
+    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Cart icon adjustments */
+  .cart-icon {
+    font-size: 1.2rem;
+    padding: 6px;
+    right: 10px;
+  }
+  
+  .cart-badge {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    top: -5px;
+    right: -5px;
+  }
+  
+  /* Mobile nav toggle */
+  .mobile-nav-toggle {
+    padding: 4px 8px;
+    font-size: 18px;
+  }
+}
+
+/* Galaxy Z Fold 5 specific adjustments when folded */
+@media only screen and (width: 344px), 
+       only screen and (device-width: 344px) and (device-height: 882px) {
+  .navbar-brand .logo-text {
+    font-size: 1rem;
+  }
+  
+  .search-form {
+    right: 42px !important;
+  }
+  
+  .search-form.active .form-control {
+    width: 110px;
+    font-size: 0.85rem;
+  }
+  
+  .btn-search {
+    padding: 4px 10px;
+  }
+  
+  .cart-icon {
+    right: 8px;
+    padding: 5px;
+    font-size: 1.1rem;
+  }
+  
+  .mobile-nav-toggle {
+    padding: 3px 7px;
+    font-size: 16px;
+  }
+  
+  /* Adjust card layout for ultra-narrow screens */
+  .service-card, .category-card {
+    width: 47% !important;
+    min-width: 120px !important;
+    margin: 0 0 10px 0 !important;
+    min-height: 260px !important;
+    max-height: 320px !important;
+    height: auto !important;
+  }
+  
+  .service-img, .category-img {
+    height: 100px !important;
+  }
+  
+  .service-content, .category-content {
+    padding: 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: calc(100% - 100px) !important;
+  }
+  
+  .service-content h3, .category-content h3 {
+    font-size: 0.85rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+    max-height: 2.4em !important;
+    overflow: hidden !important;
+  }
+  
+  .service-price, .category-content p {
+    font-size: 0.8rem !important;
+    margin-bottom: 5px !important;
+    line-height: 1.2 !important;
+    max-height: 2.4em !important;
+    overflow: hidden !important;
+  }
+  
+  .btn.btn-outline, .add-to-cart-btn {
+    padding: 4px 8px !important;
+    font-size: 0.8rem !important;
+    margin-top: auto !important;
+  }
+  
+  /* Ensure proper spacing in navbar */
+  .navbar {
+    padding: 0 10px;
+  }
+  
+  /* Ensure proper spacing for header elements */
+  .header-section {
+    height: 60px !important;
+  }
+  
+  body {
+    padding-top: 60px !important;
+  }
+}
+
+/* Specific fixes for iPhone 12 Pro (390 x 844) */
+@media only screen and (width: 390px),
+       only screen and (device-width: 390px) and (device-height: 844px) {
+  
+  /* Force 2 cards per row */
+  .services, .categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 5px !important;
+  }
+  
+  .service-card, .category-card {
+    width: 48% !important;
+    min-width: 0 !important;
+    max-width: 48% !important;
+    margin: 0 0 10px 0 !important;
+    min-height: 320px !important;
+    max-height: 400px !important;
+    height: auto !important;
+    float: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .service-img, .category-img {
+    height: 130px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  .service-content, .category-content {
+    padding: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    flex-grow: 1 !important;
+  }
+  
+  .service-content h3, .category-content h3 {
+    font-size: 0.95rem !important;
+    margin-bottom: 6px !important;
+    line-height: 1.3 !important;
+  }
+  
+  .service-price, .category-content p {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .category-content .btn.btn-outline, 
+  .service-content .add-to-cart-btn {
+    margin-top: auto !important;
+    padding: 6px 12px !important;
+    font-size: 0.9rem !important;
   }
 }
 </style>  
