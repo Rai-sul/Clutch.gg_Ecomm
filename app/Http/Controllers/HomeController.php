@@ -391,10 +391,7 @@ class HomeController extends Controller
     // ====================================================================================
     public function verify_order(Request $request)
     {
-        $request->validate([
-            'phone' => 'required',
-            'email' => 'required|email',
-        ]);
+        
 
         $userPhone = $request->phone;
         $userEmail = $request->email;
@@ -418,26 +415,9 @@ class HomeController extends Controller
     }
 
     // ✅ Always check session when accessing myorder
-    public function myorder(Request $request)
-    {
-        $userPhone = session('user_phone');
-        $userEmail = session('user_email');
-
-        if (!$userPhone || !$userEmail) {
-            notyf()->error('Please verify your phone and email.');
-            return redirect()->route('myorder_verfy');
-        }
-
-        $orders = Order::where('phone', $userPhone)
-                      ->where('email', $userEmail)
-                      ->get();
-
-        $count = Cart::where('sessionId', session()->getId())->count();
-        return view('home.myorder', compact('count', 'orders'));
-    }
 
     // ====================================================================================
-    public function myorder_verfy(Request $request)
+    public function myorder_verfy()
     {
         $count = Cart::where('sessionId', session()->getId())->count();
         return view('home.myorder_verfy', compact('count'));

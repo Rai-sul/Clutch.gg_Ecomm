@@ -2,6 +2,165 @@
 <html>
 <head>
     @include('admin.css')
+    <style>
+        .order-header {
+            color: #F08080;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-form input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+            max-width: 400px;
+            height: 45px;
+            padding: 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .search-form .btn {
+            height: 45px;
+            padding: 0 20px;
+        }
+        
+        /* Card layout for orders */
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .order-card {
+            background-color: #2d3035;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .order-date {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        
+        .order-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .order-detail {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 3px;
+        }
+        
+        .detail-value {
+            font-size: 0.95rem;
+            color: #fff;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .status-in-progress {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .status-on-the-way {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+        
+        .status-delivered {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-buttons .btn {
+            flex: 1;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        
+        /* Optional: Table view for larger screens */
+        .order-table-container {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .orders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .order-header {
+                font-size: 1.8rem;
+            }
+            
+            .orders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     @include('admin.header')
@@ -9,66 +168,116 @@
     <div class="page-content">
         <div class="page-header">
             <div class="container-fluid">
-                <h1 style="color: #F08080">Orders</h1>
-                <br><br>
-                <div class="dev_design">
-                    <form action="" method="post">
+                <h1 class="order-header">Orders</h1>
+                
+                <div class="search-container">
+                    <form action="" method="post" class="search-form">
                         @csrf
-                        <div>
-                            <input type="text" name="order">
-                            <input type="submit" value="Search" class="btn btn-primary">
-                        </div>
+                        <input type="text" name="order" placeholder="Search orders...">
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                 </div>
               
-                  <table class="tbl-full">
-                    <tr>
-                        <th>Customer Name</th>
-                        <th>Customer Phone</th>
-                        <th>Customer Address</th>
-                        <th>Product Title</th>
-                        <th>Product Price</th>
-                        <th>Product Image</th>
-                        <th>Order Created</th>
-                        <th>Payment Status</th>
-                        <th>Status</th>
-                        <th>Change Status</th>
-                    </tr>
+                <!-- Card layout for orders -->
+                <div class="orders-grid">
                     @foreach ($data as $order)
-                    <tr>
-                        <td>{{ $order->name }}</td>
-                        <td>{{ $order->phone }}</td>
-                        <td>{{ $order->rec_address }}</td>
-                        <td>{{ $order->product->title }}</td>
-                        <td>{{ $order->product->price }}</td>
-                        <td>
-                            <img src="{{ asset($order->product->image) }}" style="width: 100px; height: 100px;">
-                        </td>
-                        <td>{{ $order->created_at }}</td>
-                        <td>{{ $order->status }}</td>
-                        <td>
-                            @if ($order->status === 'in progress')
-                                <span style="color: red">{{ $order->status }}</span>
-                             @elseif ($order->status === 'On the way') 
-                                <span style="color: orange">{{ $order->status }}</span>
-                             @else 
-                                <span style="color: green">{{ $order->status }}</span>
-                            
-                            @endif
-                        </td>
-
-                        <td>
+                    <div class="order-card">
+                        <div class="order-card-header">
+                            <span class="order-date">{{ $order->created_at->format('M d, Y') }}</span>
+                            <span class="status-badge 
+                                @if ($order->status === 'in progress')
+                                    status-in-progress
+                                @elseif ($order->status === 'On the way')
+                                    status-on-the-way
+                                @else
+                                    status-delivered
+                                @endif">
+                                {{ $order->status }}
+                            </span>
+                        </div>
+                        
+                        <img src="{{ asset($order->product->image) }}" class="order-image" alt="{{ $order->product->title }}">
+                        
+                        <div class="order-detail">
+                            <span class="detail-label">Product</span>
+                            <span class="detail-value">{{ $order->product->title }}</span>
+                        </div>
+                        
+                        <div class="order-detail">
+                            <span class="detail-label">Price</span>
+                            <span class="detail-value">{{ $order->product->price }} BDT</span>
+                        </div>
+                        
+                        <div class="order-detail">
+                            <span class="detail-label">Customer</span>
+                            <span class="detail-value">{{ $order->name }}</span>
+                        </div>
+                        
+                        <div class="order-detail">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">{{ $order->phone }}</span>
+                        </div>
+                        
+                        <div class="order-detail">
+                            <span class="detail-label">Address</span>
+                            <span class="detail-value">{{ $order->rec_address }}</span>
+                        </div>
+                        
+                        <div class="action-buttons">
                             <a class="btn btn-primary" href="{{ url('on_the_way',$order->id) }}">On the way</a>
                             <a class="btn btn-success" href="{{ url('delivered',$order->id) }}">Delivered</a>
-                        </td>
-                       
-                    </tr>
+                        </div>
+                    </div>
                     @endforeach
-                  </table>
-
+                </div>
+                
+                <!-- Hidden table for reference (will not be displayed) -->
+                <div class="order-table-container">
+                    <table class="tbl-full">
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Customer Phone</th>
+                            <th>Customer Address</th>
+                            <th>Product Title</th>
+                            <th>Product Price</th>
+                            <th>Product Image</th>
+                            <th>Order Created</th>
+                            <th>Payment Status</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        @foreach ($data as $order)
+                        <tr>
+                            <td>{{ $order->name }}</td>
+                            <td>{{ $order->phone }}</td>
+                            <td>{{ $order->rec_address }}</td>
+                            <td>{{ $order->product->title }}</td>
+                            <td>{{ $order->product->price }} BDT</td>
+                            <td>
+                                <img src="{{ asset($order->product->image) }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+                            </td>
+                            <td>{{ $order->created_at->format('M d, Y') }}</td>
+                            <td>{{ $order->status }}</td>
+                            <td>
+                                @if ($order->status === 'in progress')
+                                    <span class="status-badge status-in-progress">{{ $order->status }}</span>
+                                @elseif ($order->status === 'On the way') 
+                                    <span class="status-badge status-on-the-way">{{ $order->status }}</span>
+                                @else 
+                                    <span class="status-badge status-delivered">{{ $order->status }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="btn btn-primary" href="{{ url('on_the_way',$order->id) }}">On the way</a>
+                                    <a class="btn btn-success" href="{{ url('delivered',$order->id) }}">Delivered</a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
-                    
-          
         </div>
     </div>
 

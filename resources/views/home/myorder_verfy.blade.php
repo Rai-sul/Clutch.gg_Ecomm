@@ -6,23 +6,24 @@
    <title>My Orders</title>
     <style>
         .order-lookup-section {
-            padding: 60px 0;
-            background: linear-gradient(#494D5F 100%);
+            padding: 60px 20px;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
             min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
         }
         
         .order-lookup-container {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
             padding: 30px;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             margin: 0 auto;
+            transition: all 0.3s ease;
         }
         
         .order-lookup-title {
-            font-size: 24px;
+            font-size: 1.8rem;
             font-weight: 600;
             color: #333;
             margin-bottom: 25px;
@@ -36,39 +37,51 @@
         .form-label {
             display: block;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 0.95rem;
             color: #555;
+            font-weight: 500;
         }
         
         .form-input {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
         }
         
         .form-input:focus {
             outline: none;
             border-color: #4a90e2;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
         }
         
         .submit-btn {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: #4a90e2;
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 500;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .submit-btn:hover {
             background-color: #3a7bc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
         }
         
         .form-footer {
@@ -82,6 +95,42 @@
             color: #e74c3c;
             font-size: 14px;
             margin-top: 5px;
+            display: block;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 576px) {
+            .order-lookup-section {
+                padding: 40px 15px;
+            }
+            
+            .order-lookup-container {
+                padding: 20px;
+                max-width: 100%;
+            }
+            
+            .order-lookup-title {
+                font-size: 1.5rem;
+            }
+            
+            .form-input {
+                padding: 10px 12px;
+            }
+            
+            .submit-btn {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .order-lookup-container {
+                padding: 15px;
+            }
+            
+            .order-lookup-title {
+                font-size: 1.3rem;
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -103,7 +152,7 @@
             
             <div class="form-group">
                 <label for="email" class="form-label">Email Address</label>
-                <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                <input type="email" name="email" id="email" class="form-input" placeholder="your@email.com" required>
                 @error('email')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
@@ -111,7 +160,7 @@
             
             <div class="form-group">
                 <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" name="phone" class="form-input" placeholder="+1 (123) 456-7890" required>
+                <input type="text" name="phone" id="phone" class="form-input" placeholder="+1 (123) 456-7890" required>
                 @error('phone')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
@@ -128,7 +177,7 @@
 
   <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
   <script src="{{ asset('js/bootstrap.js') }}"></script>
-  <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <script src="{{ asset('js/custom.js') }}"></script>
 
 </body>

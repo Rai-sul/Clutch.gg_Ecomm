@@ -39,7 +39,7 @@
                                 <button class="add-to-cart-btn "  data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add to Cart</button>
                             @else
                                 
-                                <a href="#" class="btn btn-primary disabled">Out of Stock</a>
+                            <button class="btn btn-primary add-to-cart-btn" disabled>Out of Stock</button>
                             @endif
                         </div>
                     </div> 
