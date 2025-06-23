@@ -7,7 +7,7 @@
     <style>
         .order-lookup-section {
             padding: 60px 20px;
-            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            background: black;
             min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
         }
         

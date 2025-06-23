@@ -222,60 +222,19 @@
                             <span class="detail-label">Address</span>
                             <span class="detail-value">{{ $order->rec_address }}</span>
                         </div>
+
+                        <div class="order-detail">
+                            <span class="detail-label">Order Date</span>
+                            <span class="detail-value">{{ $order->created_at->format('M d, Y h:i A') }}</span>
+                        </div>
                         
                         <div class="action-buttons">
                             <a class="btn btn-primary" href="{{ url('on_the_way',$order->id) }}">On the way</a>
                             <a class="btn btn-success" href="{{ url('delivered',$order->id) }}">Delivered</a>
+                            <a  class="btn btn-danger" href="{{ url('order_delete',$order->id) }}">Delete</a>
                         </div>
                     </div>
                     @endforeach
-                </div>
-                
-                <!-- Hidden table for reference (will not be displayed) -->
-                <div class="order-table-container">
-                    <table class="tbl-full">
-                        <tr>
-                            <th>Customer Name</th>
-                            <th>Customer Phone</th>
-                            <th>Customer Address</th>
-                            <th>Product Title</th>
-                            <th>Product Price</th>
-                            <th>Product Image</th>
-                            <th>Order Created</th>
-                            <th>Payment Status</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        @foreach ($data as $order)
-                        <tr>
-                            <td>{{ $order->name }}</td>
-                            <td>{{ $order->phone }}</td>
-                            <td>{{ $order->rec_address }}</td>
-                            <td>{{ $order->product->title }}</td>
-                            <td>{{ $order->product->price }} BDT</td>
-                            <td>
-                                <img src="{{ asset($order->product->image) }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
-                            </td>
-                            <td>{{ $order->created_at->format('M d, Y') }}</td>
-                            <td>{{ $order->status }}</td>
-                            <td>
-                                @if ($order->status === 'in progress')
-                                    <span class="status-badge status-in-progress">{{ $order->status }}</span>
-                                @elseif ($order->status === 'On the way') 
-                                    <span class="status-badge status-on-the-way">{{ $order->status }}</span>
-                                @else 
-                                    <span class="status-badge status-delivered">{{ $order->status }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a class="btn btn-primary" href="{{ url('on_the_way',$order->id) }}">On the way</a>
-                                    <a class="btn btn-success" href="{{ url('delivered',$order->id) }}">Delivered</a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
                 </div>
             </div>
         </div>

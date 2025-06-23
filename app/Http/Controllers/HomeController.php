@@ -177,6 +177,18 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
+    public function order_delete($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            $order->delete();
+            notyf()->warning('Product Deleted Successfully.');
+        } else {
+            notyf()->error('Product Not Found.');
+        }
+        return redirect()->back();
+    }
+
     public function edit_product($id)
     {
         $product = Product::find($id);

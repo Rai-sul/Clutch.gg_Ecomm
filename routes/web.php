@@ -41,3 +41,4 @@ route::get('show_products', [HomeController::class, 'show_products'])->name('sho
 Route::post('/cart/increment', [HomeController::class, 'increment'])->name('cart.increment');
 Route::post('/cart/decrement', [HomeController::class, 'decrement'])->name('cart.decrement');
 Route::get('/search-products', [HomeController::class, 'search']);
+route::get('order_delete/{id}', [HomeController::class, 'order_delete'])->name('order_delete');

@@ -19,6 +19,10 @@
 
             const productId = this.dataset.productId;
             const sessionId = this.dataset.sessionId;
+            
+            // Add loading state
+            this.classList.add('loading');
+            this.disabled = true;
 
             fetch("{{ route('add_cart') }}", {
                 method: 'POST',
@@ -36,6 +40,12 @@
                 if (data.status === 'success') {
                     notyf.success(data.message);
                     updateCartCount();
+
+                    // If we're on the cart page, refresh to show the new item with animation
+                    if (window.location.pathname.includes('mycart')) {
+                        window.location.href = "/mycart?added=true";
+                        return;
+                    }
 
                     // Update stock
                     let stockElement = document.getElementById(`stock-${productId}`);
@@ -62,94 +72,63 @@
                             }
                         }
                     }
+                    
+                    // Remove loading state
+                    this.classList.remove('loading');
+                    this.disabled = false;
                 } else if (data.status === 'exists') {
                     notyf.success(data.message);
+                    this.classList.remove('loading');
+                    this.disabled = false;
                 } else {
                     notyf.error(data.message);
+                    this.classList.remove('loading');
+                    this.disabled = false;
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 notyf.error('Something went wrong!');
+                this.classList.remove('loading');
+                this.disabled = false;
             });
         });
     });
-});
 
-
-//  for serach button
-
-
-    const searchForm = document.querySelector('.search-form');
-    const toggleSearchBtn = document.getElementById('toggle-search');
-    const input = document.getElementById('product-search');
-    const suggestionBox = document.getElementById('search-suggestions');
-
-    // Toggle Search Box
-    toggleSearchBtn.addEventListener('click', () => {
-        searchForm.classList.toggle('active');
-
-        if (searchForm.classList.contains('active')) {
-            input.focus();
-        } else {
-            // Add smooth closing delay
-            input.blur();
+    // Check for newly added items (if redirected from add-to-cart)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('added') && urlParams.get('added') === 'true') {
+        // Get the last cart item and add the animation class
+        const cartItems = document.querySelectorAll('.cart-item-row');
+        if (cartItems.length > 0) {
+            const lastItem = cartItems[cartItems.length - 1];
+            lastItem.classList.add('new-item');
+            
+            // Scroll to the new item if needed
             setTimeout(() => {
-                input.value = '';
-                suggestionBox.style.display = 'none';
-                suggestionBox.innerHTML = '';
-            }, 200); // gives CSS transition time
+                lastItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
         }
-    });
+        
+        // Clean up URL
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+    }
 
-    // Fetch Suggestions on Input
-    input.addEventListener('input', function () {
-        const query = this.value.trim();
-
-        if (query.length >= 2) {
-            fetch(`/search-products?q=${encodeURIComponent(query)}`)
-                .then(res => res.json())
-                .then(data => {
-                    suggestionBox.innerHTML = '';
-
-                    if (data.length > 0) {
-                        suggestionBox.style.display = 'block';
-
-                        data.forEach(product => {
-                            const item = document.createElement('a');
-                            item.href = `/product_details/${product.id}`;
-                            item.classList.add('dropdown-item', 'd-flex', 'align-items-center');
-
-                            item.innerHTML = `
-                                <img src="${product.image}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-                                <div>
-                                    <strong>${product.title}</strong><br>
-                                    <span>৳${product.price}</span>
-                                </div>
-                            `;
-
-                            suggestionBox.appendChild(item);
-                        });
-                    } else {
-                        suggestionBox.style.display = 'none';
-                    }
-                })
-                .catch(error => {
-                    console.error('Search error:', error);
-                    suggestionBox.style.display = 'none';
-                });
+    // Fix for back button navigation
+    // Store the current URL in history state when the page loads
+    const currentUrl = window.location.href;
+    history.replaceState({ url: currentUrl }, document.title, currentUrl);
+    
+    // Listen for back/forward button presses
+    window.addEventListener('popstate', function(event) {
+        if (event.state && event.state.url) {
+            // If we have a URL in the state, navigate to it
+            window.location.href = event.state.url;
         } else {
-            suggestionBox.style.display = 'none';
+            // Fallback - reload the page
+            window.location.reload();
         }
     });
-
-    // Optional: Close suggestions when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!searchForm.contains(e.target)) {
-            searchForm.classList.remove('active');
-            input.value = '';
-            suggestionBox.style.display = 'none';
-        }
-    })
-
+});
 </script>
