@@ -12,6 +12,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 use App\Mail\OrderConfirmedAdmin;
+use App\Mail\OrderConfirmedCustomer;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -366,8 +367,9 @@ class HomeController extends Controller
         $firstOrder->total = $request->input('val');
 
         notyf()->success('Order Confirmed Successfully.');
-        notyf()->warning('Thanks For Purchasing MY LOVEE!');
+        notyf()->warning('Thanks For Purchasing');
         Mail::to('raisul.mahi.islam@gmail.com')->send(new OrderConfirmedAdmin($firstOrder));
+        Mail::to($order->email)->send(new OrderConfirmedCustomer($firstOrder));
         
         // Check if route exists
         if (Route::has('order.success')) {
