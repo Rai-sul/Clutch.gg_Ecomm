@@ -1198,7 +1198,7 @@
                                             <span class="total-price">{{ $caart->product->price * $caart->quantity }} BDT</span>
                                         </td>
                                         <td class="delete-cell" data-label="">
-                                            <a href="{{ url('remove_cart', $caart->id) }}" class="btn-remove" aria-label="Remove item">
+                                            <a href="javascript:void(0);" class="btn-remove" data-cart-id="{{ $caart->id }}" aria-label="Remove item">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
@@ -1424,16 +1424,93 @@
             // Handle remove item buttons
             document.querySelectorAll('.btn-remove').forEach(btn => {
                 btn.addEventListener('click', function(e) {
-                    // Let the default action occur (following the href)
-                    // But add a small delay to show animation
+                    e.preventDefault();
                     const row = this.closest('tr');
-                    if (row) {
-                        e.preventDefault();
+                    const cartId = this.getAttribute('data-cart-id');
+                    
+                    if (row && cartId) {
+                        // Animation effect
                         row.style.opacity = '0';
                         row.style.transform = 'translateX(20px)';
-                        setTimeout(() => {
-                            window.location.href = this.getAttribute('href');
-                        }, 300);
+                        
+                        // AJAX request to remove item
+                        fetch("{{ route('cart.remove') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: JSON.stringify({ cart_id: cartId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // Update cart count in header
+                                const cartCountElements = document.querySelectorAll('.cart-count');
+                                cartCountElements.forEach(el => {
+                                    el.textContent = data.count;
+                                });
+                                
+                                // Remove the row after animation
+                                setTimeout(() => {
+                                    row.remove();
+                                    
+                                    // Update totals
+                                    document.getElementById('subtotal').textContent = data.total + " BDT";
+                                    document.getElementById('total-price').textContent = (data.total + deliveryCharge) + " BDT";
+                                    document.querySelector('input[name="val"]').value = data.total;
+                                    
+                                    // Update item count display
+                                    updateCartItemCount();
+                                    
+                                    // Show empty cart message if no items left
+                                    if (data.count === 0) {
+                                        const cartContainer = document.querySelector('.cart-items-container');
+                                        if (cartContainer) {
+                                            cartContainer.innerHTML = `
+                                                <div class="empty-cart">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                    <p>Your cart is empty</p>
+                                                    <a href="{{ url('/') }}" class="continue-shopping">Continue Shopping</a>
+                                                </div>
+                                            `;
+                                        }
+                                    }
+                                    
+                                    // Show success notification
+                                    const notyf = new Notyf({
+                                        duration: 3000,
+                                        position: {x: 'right', y: 'top'},
+                                        types: [
+                                            {
+                                                type: 'warning',
+                                                background: '#f05454',
+                                                icon: {
+                                                    className: 'fas fa-trash',
+                                                    tagName: 'i',
+                                                    color: 'white'
+                                                }
+                                            }
+                                        ]
+                                    });
+                                    notyf.open({
+                                        type: 'warning',
+                                        message: 'Product removed from your cart'
+                                    });
+                                }, 300);
+                            } else {
+                                // Show error and revert animation if failed
+                                row.style.opacity = '1';
+                                row.style.transform = 'translateX(0)';
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            // Revert animation if error
+                            row.style.opacity = '1';
+                            row.style.transform = 'translateX(0)';
+                        });
                     }
                 });
             });

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Mail;
+
 
 
 route::get('/', [AdminController::class, 'user'])->name('user');
@@ -27,7 +29,6 @@ Route::post('add_cart', [HomeController::class, 'add_cart'])->name('add_cart');
 Route::get('cart_count', [HomeController::class, 'cart_count'])->name('cart_count');
 
 route::get('mycart', [HomeController::class, 'mycart'])->name('mycart');
-route::get('remove_cart/{id}', [HomeController::class, 'remove_cart'])->name('remove_cart');
 route::post('confirm_order', [HomeController::class, 'confirm_order'])->name('confirm_order');
 route::get('view_order', [HomeController::class, 'view_order'])->name('view_order')->middleware('auth', 'verified');
 route::get('on_the_way/{id}', [HomeController::class, 'on_the_way'])->name('on_the_way');
@@ -40,5 +41,19 @@ route::get('category_product/{category_name}', [AdminController::class, 'categor
 route::get('show_products', [HomeController::class, 'show_products'])->name('show_products');
 Route::post('/cart/increment', [HomeController::class, 'increment'])->name('cart.increment');
 Route::post('/cart/decrement', [HomeController::class, 'decrement'])->name('cart.decrement');
+Route::post('/cart/remove', [HomeController::class, 'removeCartAjax'])->name('cart.remove');
 Route::get('/search-products', [HomeController::class, 'search']);
 route::get('order_delete/{id}', [HomeController::class, 'order_delete'])->name('order_delete');
+Route::get('/order/success', [HomeController::class, 'orderSuccess'])->name('order.success');
+
+
+
+
+Route::get('/test-mail', function () {
+    Mail::raw('✅ This is a test email from Clutch.gg (Laravel)', function ($message) {
+        $message->to('your-own-email@gmail.com') // <-- Replace with your real email
+                ->subject('Test Email from Clutch.gg');
+    });
+
+    return '📧 Test email sent!';
+});

@@ -11,6 +11,10 @@ use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
+use App\Mail\OrderConfirmedAdmin;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+
 class HomeController extends Controller
 {
     public function view_category()
@@ -316,30 +320,6 @@ class HomeController extends Controller
         return view('home.mycart', compact('cart', 'count'));
     }
 
-    public function remove_cart($id) 
-    {
-        $sessionId = session()->getId();
-
-        $cart = Cart::where('id', $id)->where('sessionId', $sessionId)->first();
-
-        if ($cart) {
-            $product = Product::find($cart->product_id);
-            $qty = $cart->quantity; // ✅ Fix here
-
-            if ($product) {
-                $product->quantity += $qty;
-                $product->save();
-            }
-
-            $cart->delete();
-            notyf()->warning('Product Removed From your Cart.');
-        } else {
-            notyf()->error('Cart Item Not Found.');
-        }
-
-        return redirect()->back();
-    }
-
     public function confirm_order(Request $request)
     {
         $request->validate([
@@ -357,6 +337,7 @@ class HomeController extends Controller
             return redirect()->back();
         }
 
+        $orders = [];
         foreach ($cart as $item) {
             $order = new Order;
             $order->name = $request->name;
@@ -367,13 +348,33 @@ class HomeController extends Controller
             $order->total_price = $request->input('val');
             $order->status = 'In Progress';
             $order->save();
+            
+            $orders[] = $order;
         }
 
         Cart::where('sessionId', $sessionId)->delete();
 
+        // Create a collection with all order information and related products
+        $orderCollection = collect($orders)->map(function($order) {
+            $order->product = Product::find($order->product_id);
+            return $order;
+        });
+        
+        // Get the first order for email template compatibility
+        $firstOrder = $orders[0];
+        $firstOrder->items = $orderCollection;
+        $firstOrder->total = $request->input('val');
+
         notyf()->success('Order Confirmed Successfully.');
         notyf()->warning('Thanks For Purchasing MY LOVEE!');
-        return redirect('/');
+        Mail::to('raisul.mahi.islam@gmail.com')->send(new OrderConfirmedAdmin($firstOrder));
+        
+        // Check if route exists
+        if (Route::has('order.success')) {
+            return redirect()->route('order.success');
+        } else {
+            return redirect()->route('user');
+        }
     }
 
     public function view_order()
@@ -496,5 +497,53 @@ class HomeController extends Controller
         
 
         return response()->json($products);
+    }
+    
+    public function orderSuccess()
+    {
+        $count = Cart::where('sessionId', session()->getId())->count();
+        return view('home.order_success', compact('count'));
+    }
+    
+    public function removeCartAjax(Request $request)
+    {
+        $id = $request->cart_id;
+        $sessionId = session()->getId();
+
+        $cart = Cart::where('id', $id)->where('sessionId', $sessionId)->first();
+
+        if (!$cart) {
+            return response()->json([
+                'status' => 'error', 
+                'message' => 'Cart item not found'
+            ]);
+        }
+
+        $product = Product::find($cart->product_id);
+        $qty = $cart->quantity;
+
+        if ($product) {
+            $product->quantity += $qty;
+            $product->save();
+        }
+
+        $cart->delete();
+
+        // Get updated cart count
+        $cartCount = Cart::where('sessionId', $sessionId)->count();
+        
+        // Calculate new total
+        $total = 0;
+        $cartItems = Cart::where('sessionId', $sessionId)->get();
+        foreach ($cartItems as $item) {
+            $total += $item->product->price * $item->quantity;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product removed from cart',
+            'count' => $cartCount,
+            'total' => $total
+        ]);
     }
 }

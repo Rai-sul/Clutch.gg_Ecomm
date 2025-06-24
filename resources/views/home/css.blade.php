@@ -1931,28 +1931,135 @@ body {
   }
 }
 
-/* Force 2 cards per row on show_products page for mobile devices */
-@media (max-width: 430px) {
+/* Force 2 cards per row on show_products page for ALL mobile devices */
+@media (max-width: 767px) {
   .show-products-page .services {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: space-between !important;
-    padding: 0 5px !important;
+    padding: 0 !important;
+    gap: 8px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
   
   .show-products-page .service-card {
-    width: 48% !important;
+    width: calc(50% - 4px) !important;
     min-width: 140px !important;
-    max-width: 48% !important;
+    max-width: calc(50% - 4px) !important;
     margin: 0 0 15px 0 !important;
     float: none !important;
     display: inline-block !important;
     vertical-align: top !important;
+    min-height: 300px !important;
   }
   
   .show-products-page .service-img {
     height: 120px !important;
     width: 100% !important;
+  }
+  
+  .show-products-page .service-content {
+    padding: 10px !important;
+  }
+  
+  .show-products-page .service-content h3 {
+    font-size: 0.95rem !important;
+    margin-bottom: 8px !important;
+    height: 2.4rem !important;
+  }
+  
+  .show-products-page .service-price {
+    font-size: 0.9rem !important;
+  }
+  
+  .show-products-page .add-to-cart-btn {
+    padding: 8px 10px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Extra small screens specific adjustments */
+@media (max-width: 430px) {
+  .show-products-page .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+  }
+  
+  .show-products-page .services {
+    padding: 0 !important;
+    gap: 6px !important;
+  }
+  
+  .show-products-page .service-card {
+    width: calc(50% - 3px) !important;
+    min-width: 130px !important;
+    min-height: 280px !important;
+  }
+  
+  .show-products-page .service-img {
+    height: 110px !important;
+  }
+  
+  .show-products-page .service-content h3 {
+    font-size: 0.9rem !important;
+  }
+  
+  .show-products-page .hero_area {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+}
+
+/* Very small screens (under 360px) */
+@media (max-width: 359px) {
+  .show-products-page .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+  
+  .show-products-page .services {
+    padding: 0 !important;
+    gap: 4px !important;
+  }
+  
+  .show-products-page .service-card {
+    width: calc(50% - 2px) !important;
+    min-width: 120px !important;
+    min-height: 260px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .show-products-page .service-img {
+    height: 100px !important;
+  }
+  
+  .show-products-page .service-content {
+    padding: 8px !important;
+  }
+  
+  .show-products-page .service-content h3 {
+    font-size: 0.85rem !important;
+    margin-bottom: 6px !important;
+    height: 2.2rem !important;
+  }
+  
+  .show-products-page .service-price {
+    font-size: 0.85rem !important;
+  }
+  
+  .show-products-page .add-to-cart-btn {
+    padding: 6px 8px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .show-products-page .hero_area {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
   }
 }
 
@@ -2570,4 +2677,95 @@ body {
     }
   }
 </style>
+
+<!-- Stock visibility control -->
+<style>
+  .stock-count {
+    display: none !important;
+    transition: all 0.3s ease;
+    opacity: 0;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    z-index: 10;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: none;
+  }
+  
+  .service-card {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .service-card a {
+    position: relative;
+    display: block;
+  }
+  
+  .service-card:hover .stock-count,
+  .service-card:focus .stock-count,
+  .service-card:active .stock-count {
+    display: inline-block !important;
+    opacity: 1;
+  }
+  
+  /* Touch device support */
+  @media (hover: none) {
+    .service-card:active .stock-count {
+      display: inline-block !important;
+      opacity: 1;
+    }
+  }
+</style>
+
+<!-- Reduced margins for show_products page -->
+<style>
+  /* Adjust container width and padding for show_products page */
+  .show-products-page .container {
+    max-width: 95% !important;
+    width: 95% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  
+  /* Maintain the gap between cards but reduce outer margins */
+  .show-products-page .services {
+    margin-left: -5px !important;
+    margin-right: -5px !important;
+  }
+  
+  /* Adjust shop section padding */
+  .show-products-page .shop_section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Make sure hero_area doesn't add extra padding */
+  .show-products-page .hero_area {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .show-products-page .container {
+      max-width: 98% !important;
+      width: 98% !important;
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+    }
+    
+    .show-products-page .hero_area {
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+    }
+  }
+</style>
+
+<!-- Specific fix for show_products page on Samsung Galaxy A51/A71 -->
 
