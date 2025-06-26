@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\category;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -19,8 +20,8 @@ class AdminController extends Controller
             $user_count =  User::where('usertype', 'user')->get()->count();
             $product_count = Product::all()->count();
             $order_count = Order::all()->count();
-            $delivery_count = Order::where('status', 'delivered')->get()->count();
-            $revenue = Order::where('status', 'delivered')->get();
+            $delivery_count = OrderDetail::where('status', 'delivered')->get()->count();
+            $revenue = OrderDetail::where('status', 'delivered')->get();
             if ($usertype == 'admin') {
                 return view('admin.index',compact('user_count','product_count','order_count', 'delivery_count','revenue'));
             } else {

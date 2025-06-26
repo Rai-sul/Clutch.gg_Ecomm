@@ -18,15 +18,15 @@
       }
       
       .orders-card {
-         background-color: #fff;
+         background-color: #222222;
          border-radius: 10px;
-         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
          padding: 1.5rem;
          margin-bottom: 2rem;
       }
       
       .orders-title {
-         color: #333;
+         color: #ffffff;
          font-size: 1.8rem;
          margin-bottom: 1.5rem;
          text-align: center;
@@ -41,16 +41,16 @@
       }
       
       .order-item {
-         background-color: #f8f9fa;
+         background-color: #333333;
          border-radius: 8px;
          padding: 1rem;
-         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
          transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
       
       .order-item:hover {
          transform: translateY(-3px);
-         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
       
       .order-item-image {
@@ -70,12 +70,12 @@
       .order-item-title {
          font-weight: 600;
          font-size: 1.1rem;
-         color: #333;
+         color: #ffffff;
       }
       
       .order-item-price {
          font-weight: 500;
-         color: #555;
+         color: #cccccc;
       }
       
       .status {
@@ -156,7 +156,7 @@
    </style>
 </head>
 
-<body>
+<body style="background-color: #000000 !important; color: #ffffff !important;">
    <div class="hero_area">
       <!-- header section strats -->
       @include('home.header')
@@ -169,7 +169,7 @@
             
             <!-- Card layout for orders -->
             <div class="order-items">
-                @foreach($orders as $order)
+                @foreach($order_details as $order)
                 <div class="order-item">
                     <img src="{{ asset($order->product->image) }}" class="order-item-image" alt="{{ $order->product->title }}">
                     <div class="order-item-details">

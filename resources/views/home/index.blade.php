@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 
-<body>
+<body style="background-color: #000000 !important; color: #ffffff !important;">
   
     <!-- header section strats -->
     @include('home.header')

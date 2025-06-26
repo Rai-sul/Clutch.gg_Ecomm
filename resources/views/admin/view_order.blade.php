@@ -185,7 +185,7 @@
                         <div class="order-card-header">
                             <span class="order-date">{{ $order->created_at->format('M d, Y') }}</span>
                             <span class="status-badge 
-                                @if ($order->status === 'in progress')
+                                @if ($order->status === 'In Progress')
                                     status-in-progress
                                 @elseif ($order->status === 'On the way')
                                     status-on-the-way
@@ -197,6 +197,11 @@
                         </div>
                         
                         <img src="{{ asset($order->product->image) }}" class="order-image" alt="{{ $order->product->title }}">
+
+                        <div class="order-detail">
+                            <span class="detail-label">Order ID</span>
+                            <span class="detail-value">{{ $order->order_id }}</span>
+                        </div>
                         
                         <div class="order-detail">
                             <span class="detail-label">Product</span>
@@ -210,17 +215,32 @@
                         
                         <div class="order-detail">
                             <span class="detail-label">Customer</span>
-                            <span class="detail-value">{{ $order->name }}</span>
+                            <span class="detail-value">{{ $order->orders->customer_name }}</span>
                         </div>
                         
                         <div class="order-detail">
                             <span class="detail-label">Phone</span>
-                            <span class="detail-value">{{ $order->phone }}</span>
+                            <span class="detail-value">{{ $order->orders->phone }}</span>
                         </div>
                         
                         <div class="order-detail">
                             <span class="detail-label">Address</span>
-                            <span class="detail-value">{{ $order->rec_address }}</span>
+                            <span class="detail-value">{{ $order->orders->address }}</span>
+                        </div>
+
+                        <div class="order-detail">
+                            <span class="detail-label">Delivery Zone</span>
+                            <span class="detail-value">
+                                @if($order->orders->del_zone == 'dhaka')
+                                    Inside Dhaka
+                                @elseif($order->orders->del_zone == 'suburban')
+                                    Sub-Urban
+                                @elseif($order->orders->del_zone == 'outside_dhaka')
+                                    Outside Dhaka
+                                @else
+                                    {{ $order->orders->del_zone }}
+                                @endif
+                            </span>
                         </div>
 
                         <div class="order-detail">

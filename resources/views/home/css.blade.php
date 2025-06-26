@@ -14,24 +14,29 @@
 
 body {
   padding-top: 100px !important; /* Increased from 80px to accommodate larger header */
+  background-color: #000000 !important; /* Force black background */
+  color: #ffffff !important; /* Ensure text is visible */
 }
 
 /* Responsive padding adjustments */
 @media (max-width: 992px) {
   body {
     padding-top: 95px !important;
+    background-color: #000000 !important;
   }
 }
 
 @media (max-width: 768px) {
   body {
     padding-top: 90px !important;
+    background-color: #000000 !important;
   }
 }
 
 @media (max-width: 430px) {
   body {
     padding-top: 90px !important; /* Increased from 70px */
+    background-color: #000000 !important;
   }
 }
 

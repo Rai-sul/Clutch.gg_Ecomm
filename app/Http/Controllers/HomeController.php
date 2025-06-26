@@ -9,6 +9,7 @@ use App\Models\ProductImages;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Auth;
 
 use App\Mail\OrderConfirmedAdmin;
@@ -328,50 +329,69 @@ class HomeController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
             'address' => 'required',
+            'delivery_zone' => 'required',
         ]);
-
+    
         $sessionId = session()->getId();
         $cart = Cart::where('sessionId', $sessionId)->get();
-
+    
         if ($cart->isEmpty()) {
             notyf()->error('Your cart is empty.');
             return redirect()->back();
         }
-
-        $orders = [];
-        foreach ($cart as $item) {
-            $order = new Order;
-            $order->name = $request->name;
-            $order->phone = $request->phone;
-            $order->email = $request->email;
-            $order->rec_address = $request->address;
-            $order->product_id = $item->product_id;
-            $order->total_price = $request->input('val');
-            $order->status = 'In Progress';
-            $order->save();
-            
-            $orders[] = $order;
+    
+        // Save order first to generate order_id
+        $order = new Order;
+        $order->customer_name = $request->name;
+        $order->email = $request->email;
+        $order->phone = $request->phone;
+        $order->address = $request->address;
+        $order->del_zone = $request->delivery_zone;
+        if($request->delivery_zone == 'dhaka'){
+            $order->del_charge = 60;
+        }elseif($request->delivery_zone == 'suburban'){
+            $order->del_charge = 100;
+        }elseif($request->delivery_zone == 'outside_dhaka'){
+            $order->del_charge = 120;
         }
-
+        $order->save();
+    
+        $total = 0;
+        $orderDetails = [];
+    
+        foreach ($cart as $item) {
+            $detail = new OrderDetail;
+            $detail->order_id = $order->id;
+            $detail->product_id = $item->product_id;
+            $detail->product_title = $item->product->title;
+            $detail->quantity = $item->quantity;
+            $detail->price = $item->product->price * $item->quantity;
+            $detail->status = 'In Progress';
+            $detail->save();
+    
+            $total += $item->product->price * $item->quantity;
+            $orderDetails[] = $detail;
+        }
+    
+        // Clear the cart
         Cart::where('sessionId', $sessionId)->delete();
-
-        // Create a collection with all order information and related products
-        $orderCollection = collect($orders)->map(function($order) {
-            $order->product = Product::find($order->product_id);
-            return $order;
+    
+        // Attach product info to each order item (optional)
+        $orderCollection = collect($orderDetails)->map(function ($orderDetail) {
+            $orderDetail->product = Product::where('title', $orderDetail->product_title)->first();
+            return $orderDetail;
         });
-        
-        // Get the first order for email template compatibility
-        $firstOrder = $orders[0];
-        $firstOrder->items = $orderCollection;
-        $firstOrder->total = $request->input('val');
-
+    
+        $order->items = $orderCollection;
+        $order->total = $total;
+    
+        // Send email
+        Mail::to('raisul.mahi.islam@gmail.com')->send(new OrderConfirmedAdmin($order));
+        Mail::to($order->email)->send(new OrderConfirmedCustomer($order));
+    
         notyf()->success('Order Confirmed Successfully.');
         notyf()->warning('Thanks For Purchasing');
-        Mail::to('raisul.mahi.islam@gmail.com')->send(new OrderConfirmedAdmin($firstOrder));
-        Mail::to($order->email)->send(new OrderConfirmedCustomer($firstOrder));
-        
-        // Check if route exists
+    
         if (Route::has('order.success')) {
             return redirect()->route('order.success');
         } else {
@@ -381,13 +401,13 @@ class HomeController extends Controller
 
     public function view_order()
     {
-        $data = Order::all();
+        $data = OrderDetail::all();
         return view('admin.view_order', compact('data'));
     }
 
     public function on_the_way($id)
     {
-        $data = Order::find($id);
+        $data = OrderDetail::find($id);
         $data->status = 'On the way';
         $data->save();
         notyf()->success('Order Status Updated to On the way.');
@@ -396,7 +416,7 @@ class HomeController extends Controller
 
     public function delivered($id)
     {
-        $data = Order::find($id);
+        $data = OrderDetail::find($id);
         $data->status = 'Delivered';
         $data->save();
         notyf()->success('Order Status Updated to Delivered.');
@@ -412,8 +432,8 @@ class HomeController extends Controller
         $userEmail = $request->email;
 
         // Make sure both phone and email match for same order
-        $orders = Order::where('phone', $userPhone)->where('email', $userEmail)->get();
-        if ($orders->isEmpty()) {
+        $orders = Order::where('phone', $userPhone)->where('email', $userEmail)->first();
+        if (!$orders) {
             $count = Cart::where('sessionId', session()->getId())->count();
             notyf()->error('No Order Found.');
             return view('home.myorder_verfy', compact('count'));
@@ -425,8 +445,10 @@ class HomeController extends Controller
             'user_email' => $userEmail
         ]);
 
+
+        $order_details = OrderDetail::where('order_id', $orders->id)->get();
         $count = Cart::where('sessionId', session()->getId())->count();
-        return view('home.myorder', compact('count', 'orders'));
+        return view('home.myorder', compact('count',  'order_details'));
     }
 
     // ✅ Always check session when accessing myorder

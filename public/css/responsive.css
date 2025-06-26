@@ -5,11 +5,15 @@
 }
 
 @media (max-width: 992px) {
+    body {
+        background-color: #000000;
+        color: #ffffff;
+    }
+
     .user_option {
         justify-content: center;
         margin-left: 0;
         margin-top: 10px;
-
     }
 
     .custom_nav-container {
@@ -41,7 +45,6 @@
     }
 
     .saving_section .detail-box {
-
         margin-bottom: 30px;
     }
 
@@ -65,8 +68,21 @@
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-top: 90px !important;
+        background-color: #000000 !important;
+    }
+
     .hero_area {
-        padding: 0 25px;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
 
     .slider_section .img-box {
@@ -88,29 +104,49 @@
         margin-bottom: 45px;
     }
 
-    .info_section .row>div {
+    .info_section .row > div {
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-
     }
 
     .info_section {
         margin: 0 25px 25px;
     }
-
-
 }
 
 @media (max-width: 576px) {
+    body {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
     .contact_section {
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
 }
 
 @media (max-width: 480px) {
+    body {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
 
     .saving_section .detail-box,
     .gift_section .detail-box {
@@ -118,9 +154,11 @@
     }
 }
 
-@media (max-width: 420px) {}
+@media (max-width: 420px) {
+}
 
-@media (max-width: 376px) {}
+@media (max-width: 376px) {
+}
 
 @media (min-width: 1200px) {
     .container {

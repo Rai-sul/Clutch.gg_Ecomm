@@ -19,15 +19,49 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            width: 98% !important;
+            max-width: 98% !important;
+            margin: 1rem auto;
+            padding: 0 0.5rem;
+        }
+        
+        /* Full width container for mobile */
+        @media (max-width: 767px) {
+            .checkout-container {
+                width: 98% !important;
+                padding: 0 0.25rem;
+            }
+            
+            .hero_area {
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 430px) {
+            .checkout-container {
+                width: 98% !important;
+                padding: 0 0.25rem;
+                margin: 0.5rem auto;
+            }
+            
+            .checkout-card {
+                padding: 0.75rem;
+            }
         }
         
         .checkout-card {
             background: #fff;
             border-radius: 16px;
-            padding: 1.8rem;
+            padding: 1.2rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
             background: linear-gradient(145deg, #2b3035, #1a1e22);
@@ -35,10 +69,10 @@
         }
         
         .checkout-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 1.8rem;
-            padding-bottom: 0.75rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.6rem;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             color: white;
             position: relative;
@@ -56,25 +90,25 @@
         
         /* Form styling */
         .form-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: 1rem;
             position: relative;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.4rem;
             font-weight: 500;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
             letter-spacing: 0.5px;
         }
         
         .form-control {
             width: 100%;
-            padding: 0.9rem 1.2rem;
+            padding: 0.7rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             background-color: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -147,7 +181,7 @@
         /* Textarea styling */
         textarea.form-control {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
         }
         
         /* Note text styling */
@@ -204,40 +238,40 @@
             }
         }
         
-        @media (max-width: 767px) {
-            .checkout-container {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
-                margin: 1.5rem auto;
-                gap: 1.2rem;
-            }
+                    @media (max-width: 767px) {
+                .checkout-container {
+                    grid-template-columns: 1fr;
+                    padding: 0 1rem;
+                    margin: 1.2rem auto;
+                    gap: 1rem;
+                }
+                
+                .checkout-card {
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    border-radius: 14px;
+                }
+                
+                .checkout-title {
+                    font-size: 1.3rem;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
+                }
+                
+                .form-group {
+                    margin-bottom: 0.9rem;
+                }
+                
+                .form-label {
+                    margin-bottom: 0.3rem;
+                    font-size: 0.9rem;
+                }
             
-            .checkout-card {
-                padding: 1.5rem;
-                margin-bottom: 1.2rem;
-                border-radius: 14px;
-            }
-            
-            .checkout-title {
-                font-size: 1.4rem;
-                margin-bottom: 1.5rem;
-                padding-bottom: 0.6rem;
-            }
-            
-            .form-group {
-                margin-bottom: 1.5rem;
-            }
-            
-            .form-label {
-                margin-bottom: 0.6rem;
-                font-size: 0.95rem;
-            }
-            
-            .form-control {
-                padding: 0.8rem 1rem;
-                font-size: 0.95rem;
-                border-radius: 8px;
-            }
+                            .form-control {
+                    padding: 0.6rem 0.8rem;
+                    font-size: 0.9rem;
+                    border-radius: 7px;
+                }
             
             .phone-prefix {
                 padding: 0.8rem 1rem;
@@ -265,31 +299,31 @@
             }
             
             textarea.form-control {
-                min-height: 80px;
+                min-height: 70px;
             }
         }
         
         /* Improve cart item display on small screens */
-        @media (max-width: 576px) {
-            .checkout-container {
-                padding: 0 0.8rem;
-                margin: 1.2rem auto;
-                gap: 1rem;
-            }
-            
-            .checkout-card {
-                padding: 1.2rem;
-                border-radius: 12px;
-            }
-            
-            .checkout-title {
-                font-size: 1.3rem;
-                margin-bottom: 1.2rem;
-            }
-            
-            .form-group {
-                margin-bottom: 1.2rem;
-            }
+                    @media (max-width: 576px) {
+                .checkout-container {
+                    padding: 0 0.8rem;
+                    margin: 1rem auto;
+                    gap: 0.8rem;
+                }
+                
+                .checkout-card {
+                    padding: 0.9rem;
+                    border-radius: 12px;
+                }
+                
+                .checkout-title {
+                    font-size: 1.2rem;
+                    margin-bottom: 0.9rem;
+                }
+                
+                .form-group {
+                    margin-bottom: 0.8rem;
+                }
             
             .delivery-options {
                 grid-template-columns: 1fr;
@@ -346,30 +380,30 @@
         /* Very small screens */
         @media (max-width: 430px) {
             .checkout-container {
-                padding: 0 0.6rem;
-                margin: 1rem auto;
+                padding: 0 0.5rem;
+                margin: 0.8rem auto;
             }
             
             .checkout-card {
-                padding: 1rem;
+                padding: 0.8rem;
                 border-radius: 10px;
             }
             
             .checkout-title {
-                font-size: 1.2rem;
-                margin-bottom: 1rem;
-                padding-bottom: 0.5rem;
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.4rem;
             }
             
             .form-label {
-                font-size: 0.9rem;
-                margin-bottom: 0.5rem;
+                font-size: 0.85rem;
+                margin-bottom: 0.25rem;
             }
             
             .form-control {
-                padding: 0.7rem 0.9rem;
-                font-size: 0.9rem;
-                border-radius: 7px;
+                padding: 0.5rem 0.7rem;
+                font-size: 0.85rem;
+                border-radius: 6px;
             }
             
             .phone-prefix {
@@ -387,7 +421,7 @@
             }
             
             textarea.form-control {
-                min-height: 70px;
+                min-height: 60px;
             }
             
             .note-text {
@@ -399,7 +433,7 @@
 
         /* Payment method styling */
         .payment-options {
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
         }
 
         .payment-option {
@@ -442,8 +476,8 @@
         /* Promo code styling */
         .promo-code {
             display: flex;
-            gap: 0.8rem;
-            margin: 1.5rem 0;
+            gap: 0.6rem;
+            margin: 1rem 0;
         }
 
         .promo-input {
@@ -485,16 +519,16 @@
         /* Order summary styling */
         .summary-details {
             background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 0.8rem 0;
+            padding: 0.6rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
         }
@@ -506,8 +540,8 @@
         .total-row {
             font-weight: 600;
             font-size: 1.1rem;
-            padding-top: 1rem;
-            margin-top: 0.5rem;
+            padding-top: 0.7rem;
+            margin-top: 0.3rem;
             color: white;
         }
 
@@ -519,16 +553,16 @@
         /* Confirm button styling */
         .btn-confirm {
             width: 100%;
-            padding: 1.1rem;
+            padding: 0.9rem;
             background: #f05454;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.05rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1065,7 +1099,7 @@
     </style>
 </head>
 
-<body>
+<body style="background-color: #000000 !important; color: #ffffff !important;">
   <div class="hero_area">
     <!-- header section strats -->
     @include('home.header')

@@ -38,9 +38,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    width: 98% !important;
+    max-width: 98% !important;
+    margin: 1rem auto;
+    padding: 0 0.5rem;
 }
 
 /* Base styles for checkout cards */
@@ -50,6 +51,7 @@ body {
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 /* Enhanced Order Card Styling */
@@ -307,10 +309,12 @@ body {
     font-weight: 500;
 }
 
-/* Cart items container styling */
+/* Cart items container - Dynamic height */
 .cart-items-container {
     width: 100%;
-    transition: height 0.3s ease;
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: 0;
 }
 
 /* Cart item row animations */
@@ -336,11 +340,14 @@ body {
     animation: fadeInRight 0.4s ease forwards;
 }
 
-/* Cart items styling */
+/* Cart items table styling */
 .cart-items {
     width: 100%;
     border-collapse: collapse;
-    position: relative;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .cart-items th,
@@ -573,7 +580,10 @@ body {
 @media (max-width: 992px) {
     .checkout-container {
         grid-template-columns: 1fr;
-        max-width: 700px;
+        width: 98% !important;
+        max-width: 98% !important;
+        margin: 1rem auto;
+        padding: 0 0.5rem;
     }
 }
 
@@ -689,8 +699,10 @@ body {
 
 @media (max-width: 576px) {
     .checkout-container {
-        padding: 0 0.75rem;
-        margin: 1rem auto;
+        width: 98% !important;
+        max-width: 98% !important;
+        padding: 0 0.5rem;
+        margin: 0.75rem auto;
     }
 
     .checkout-card {
@@ -832,8 +844,10 @@ body {
 
 @media (max-width: 430px) {
     .checkout-container {
-        padding: 0 0.75rem;
-        margin: 0.75rem auto;
+        width: 98% !important;
+        max-width: 98% !important;
+        padding: 0 0.25rem;
+        margin: 0.5rem auto;
     }
 
     .checkout-card {
@@ -997,7 +1011,10 @@ body {
 
 @media (max-width: 320px) {
     .checkout-container {
-        padding: 0 0.5rem;
+        width: 98% !important;
+        max-width: 98% !important;
+        padding: 0 0.25rem;
+        margin: 0.5rem auto;
     }
 
     .checkout-card {
@@ -1041,7 +1058,8 @@ body {
     }
 
     .checkout-container {
-        color: white;
+        width: 98% !important;
+        max-width: 98% !important;
     }
 
     .checkout-card {
