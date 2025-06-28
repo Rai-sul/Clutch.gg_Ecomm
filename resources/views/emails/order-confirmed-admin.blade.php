@@ -50,8 +50,9 @@
         Outside Dhaka
         <td>Delivery Charge: 120 ৳</td>
     @endif
+    @php $value = $order->total + $order->del_charge; @endphp
 
-    <h3>💰 Total: {{ $order->total }} + {{ $order->del_charge }} ৳</h3>
+    <h3>💰 Total: {{ $value }} ৳</h3>
 
     <p style="color: gray;">Order placed on {{ $order->created_at->format('M d, Y h:i A') }}</p>
 </body>

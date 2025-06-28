@@ -8,7 +8,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="">
-  <title>Order Success - Clutch</title>
+  <title style="color: black !important;">Order Success - Clutch.gg</title>
   @include('home.css')
 </head>
 <body>
@@ -26,8 +26,8 @@
             <div class="text-center mb-4">
               <i class="fa fa-check-circle success_icon"></i>
             </div>
-            <h2 class="text-center mb-3">Order Placed Successfully!</h2>
-            <p class="text-center mb-4">Thank you for your purchase. We have received your order and will process it shortly.</p>
+            <h2 class="text-center mb-3" style="color: black !important;">Order Placed Successfully!</h2>
+            <p class="text-center mb-4" style="color: black !important;">Thank you for your purchase. We have received your order and will process it shortly.</p>
             
             <div class="text-center action-buttons">
               <a href="{{ url('/') }}" class="btn btn-primary">Continue Shopping</a>

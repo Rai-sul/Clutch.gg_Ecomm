@@ -52,8 +52,8 @@
         Outside Dhaka
         <td>Delivery Charge: 120 ৳</td>
     @endif
-
-    <h3>💰 Total: {{ $order->total }} + {{ $order->del_charge }} ৳</h3>
+    @php $value = $order->total + $order->del_charge; @endphp
+    <h3>💰 Total: {{ $value }} ৳</h3>
     
     <p style="margin-top: 30px;">We'll notify you once your order is shipped. If you have any questions, just reply to this email.</p>
 
