@@ -520,11 +520,11 @@ body {
 .service-card {
     width: 300px;
     height: auto;
-    background: linear-gradient(145deg, #2b3035, #1a1e22);
-    border-radius: 16px;
+    background: #000000;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -532,36 +532,33 @@ body {
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-    border-color: rgba(240, 84, 84, 0.3);
+    transform: translateY(-5px);
 }
 
 .service-img {
     height: 220px;
     width: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.4s ease;
 }
 
 .service-card:hover .service-img {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .service-content {
-    padding: 20px;
+    padding: 15px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background: rgba(29, 35, 39, 0.95);
+    background: #000000;
 }
 
 .service-content h3 {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     color: White;
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
     line-height: 1.3;
     transition: color 0.3s ease;
     display: -webkit-box;
@@ -581,35 +578,24 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .service-price {
     color: White;
-    font-weight: bold;
-    font-size: 1.2rem;
-    background: rgba(240, 84, 84, 0.1);
-    padding: 5px 12px;
-    border-radius: 20px;
-    display: inline-block;
-}
-
-.service-desc {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 20px;
-    line-height: 1.5;
-    flex-grow: 1;
-    font-size: 0.95rem;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .stock-count {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 3px 8px;
     border-radius: 4px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .service-content .add-to-cart-btn {
@@ -619,27 +605,60 @@ body {
     background-color: #f05454;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(240, 84, 84, 0.25);
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-weight: 500;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     margin-top: auto;
 }
 
 .service-content .add-to-cart-btn:hover {
-    background-color: #d93b3b;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(240, 84, 84, 0.35);
+    background-color: #f05454;
 }
 
 .service-content .add-to-cart-btn:disabled {
     background-color: #6c757d;
     cursor: not-allowed;
     opacity: 0.7;
-    box-shadow: none;
-    transform: none;
+}
+
+/* Out of Stock button styling to match image */
+.out-of-stock-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #e9ecef;
+    color: #212529;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: not-allowed;
+    margin-top: auto;
+}
+
+/* Out of Stock overlay */
+.out-of-stock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.out-of-stock-text {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 /* ✅ For all screens ≤ 768px (including 412px) */
@@ -652,7 +671,7 @@ body {
 
     .service-card, .category-card {
         width: calc(50% - 8px); /* Exactly two cards per row with gap */
-        min-height: 380px;
+        min-height: 320px;
         margin-bottom: 15px;
     }
 
@@ -661,42 +680,40 @@ body {
     }
 
     .service-content, .category-content {
-        padding: 15px;
+        padding: 10px;
     }
 
     .service-content h3, .category-content h3 {
-        font-size: 1rem;
+        font-size: 0.9rem;
         height: 2.4rem;
         margin-bottom: 8px;
     }
 
     .service-meta {
         margin-bottom: 10px;
-        padding-bottom: 8px;
     }
 
     .service-price {
-        font-size: 0.95rem;
-        padding: 4px 10px;
+        font-size: 0.9rem;
     }
 
     .stock-count {
-        font-size: 0.8rem;
-        margin-bottom: 10px;
-        padding: 4px 8px;
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        top: 5px;
+        right: 5px;
     }
 
     .service-content .add-to-cart-btn {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-        border-radius: 6px;
+        padding: 8px 10px;
+        font-size: 0.85rem;
     }
 }
 
 /* For extra small screens */
 @media (max-width: 480px) and (min-width: 360px) {
     .service-card, .category-card {
-        min-height: 330px;
+        min-height: 300px;
     }
     
     .service-img, .category-img {
@@ -726,11 +743,11 @@ body {
   .category-card {
     width: 300px;
     height: auto;
-    background: linear-gradient(145deg, #2b3035, #1a1e22);
-    border-radius: 16px;
+    background: #000000;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -738,82 +755,43 @@ body {
   }
 
   .category-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-    border-color: rgba(240, 84, 84, 0.3);
+    transform: translateY(-5px);
   }
 
   .category-img {
     height: 220px;
     width: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.4s ease;
   }
 
   .category-card:hover .category-img {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 
   .category-content {
-    padding: 20px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    background: rgba(29, 35, 39, 0.95);
-    justify-content: space-between;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    text-align: center;
   }
 
   .category-content h3 {
-    margin-bottom: 12px;
+    margin: 0;
+    padding: 15px;
     text-align: center;
     color: White;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     line-height: 1.3;
     transition: color 0.3s ease;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 2.6rem;
   }
 
   .category-card:hover h3 {
     color: #f05454;
-  }
-
-  .category-content p {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 15px;
-    text-align: center;
-    font-size: 0.95rem;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .category-content .btn.btn-outline {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid #f05454;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    margin-top: auto;
-  }
-
-  .category-content .btn.btn-outline:hover {
-    background-color: #f05454;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(240, 84, 84, 0.25);
   }
 
   /* --- Mobile Media Query for Category Card (Samsung Galaxy A51/A71, 360-412px) --- */
@@ -828,7 +806,7 @@ body {
       width: calc(50% - 5px); /* Exactly two cards per row with smaller gap */
       min-width: unset;
       max-width: unset;
-      min-height: 350px;
+      min-height: 200px;
       margin-bottom: 15px;
     }
     
@@ -836,26 +814,13 @@ body {
       height: 140px;
     }
     
-    .service-content, .category-content {
-      padding: 12px;
+    .category-content {
+      padding: 0;
     }
     
-    .service-content h3, .category-content h3 {
+    .category-content h3 {
       font-size: 0.95rem;
-      height: 2.4rem;
-      margin-bottom: 8px;
-    }
-    
-    .service-price, .category-content p {
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-    }
-    
-    .btn.btn-outline, .add-to-cart-btn {
-      font-size: 0.9rem;
-      padding: 8px 12px;
-      border-radius: 6px;
+      padding: 10px;
     }
   }
 
@@ -863,24 +828,11 @@ body {
   @media (min-width: 768px) and (max-width: 1024px) {
     .category-card {
       width: 31%;
-      min-height: 400px;
+      min-height: 200px;
     }
     
     .category-img {
       height: 180px;
-    }
-    
-    .category-content {
-      padding: 15px;
-    }
-    
-    .category-content h3 {
-      font-size: 1.1rem;
-    }
-    
-    .category-content .btn.btn-outline {
-      padding: 10px 15px;
-      font-size: 0.95rem;
     }
   }
 
@@ -894,7 +846,7 @@ body {
     
     .service-card, .category-card {
         width: calc(50% - 4px); /* Exactly two cards per row with even smaller gap */
-        min-height: 320px;
+        min-height: 180px;
         margin-bottom: 12px;
     }
     
@@ -902,45 +854,9 @@ body {
         height: 110px;
     }
     
-    .service-content, .category-content {
-        padding: 10px;
-    }
-    
-    .service-content h3, .category-content h3 {
+    .category-content h3 {
         font-size: 0.85rem;
-        height: 2.2rem;
-        margin-bottom: 6px;
-    }
-    
-    .service-price, .category-content p {
-        font-size: 0.85rem;
-        margin-bottom: 8px;
-        padding-bottom: 6px;
-    }
-    
-    .btn.btn-outline, .add-to-cart-btn {
-        font-size: 0.8rem;
-        padding: 6px 10px;
-        border-radius: 4px;
-    }
-    
-    .badge.stock-count {
-        font-size: 0.7rem;
-        padding: 3px 8px;
-        margin-bottom: 8px;
-    }
-  }
-
-  /* For extra small screens */
-  @media (max-width: 480px) {
-    .category-card {
-      width: 100%;
-      margin-bottom: 20px;
-      min-height: 360px;
-    }
-    
-    .category-img {
-      height: 180px;
+        padding: 8px;
     }
   }
 </style>

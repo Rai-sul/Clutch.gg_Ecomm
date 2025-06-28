@@ -30,29 +30,23 @@
                     <div class="service-card">
                         <a href="{{ url('product_details',$product->id) }}">
                             <img class="service-img" src="{{ asset($product->image) }}" alt="{{ $product->title }}">
-                            @if($product->quantity > 0)
-                                <div class="badge bg-success stock-count" id="stock-{{ $product->id }}">
-                                    In Stock {{ $product->quantity }}
-                                </div>
-                            @else
-                                <div class="badge bg-danger stock-count" id="stock-{{ $product->id }}">
-                                    Out of Stock
+                            @if($product->quantity <= 0)
+                                <div class="out-of-stock-overlay">
+                                    <span class="out-of-stock-text">Out of Stock</span>
                                 </div>
                             @endif
-                            <div class="service-content"> 
-                                <h3>{{ $product->title }}</h3>
-                                <div class="service-meta">
-                                    <div class="service-price">TK.{{ $product->price }}</div>
-                                </div>
-                            </div>
                         </a>
-                        
-                        <div class="service-content">
+                        <div class="service-content"> 
+                            <h3>{{ $product->title }}</h3>
+                            <div class="service-meta">
+                                <span class="service-price">BDT {{ $product->price }}</span>
+                            </div>
+                            
                             @if($product->quantity > 0)
-                                <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add to Cart</button>
+                                <button class="add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add To Cart</button>
                             @else
-                                <button class="btn btn-primary add-to-cart-btn" disabled>Out of Stock</button>
-                            @endif  
+                                <button class="out-of-stock-btn" disabled>Out Of Stock</button>
+                            @endif
                         </div>
                     </div>
                 @endforeach
@@ -62,6 +56,7 @@
     </section>
 
     <!-- footer section -->
+    @include('home.info')
     @include('home.footer')
     <!-- footer section -->
 

@@ -150,11 +150,12 @@ class HomeController extends Controller
         $images = ProductImages::where('product_id', $id)->get();
         $data = Product::find($id);
         $count = Cart::where('sessionId', session()->getId())->count();
+        $related_products = Product::where('category', $data->category)->get();
         
         // If not authenticated, set count to 0
     
         if ($images) {
-            return view('home.product_details', compact('images', 'count', 'data'));
+            return view('home.product_details', compact('images', 'count', 'data','related_products'));
         } else {
             notyf()->error('No images found for this product.');
             return redirect()->back();

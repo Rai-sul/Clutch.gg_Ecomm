@@ -187,6 +187,7 @@
 
 
     <!-- footer section -->
+    @include('home.info')
     @include('home.footer')
 
 

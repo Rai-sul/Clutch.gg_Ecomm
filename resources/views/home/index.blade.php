@@ -28,15 +28,12 @@
 
   <!-- end shop section -->
 
-  <!-- contact section -->
 
-  <!-- @include('home.contact') -->
-
-  <!-- end contact section -->
 
    
 
   <!-- info section -->
+   @include('home.info')
 
     <!-- footer section -->
     @include('home.footer')

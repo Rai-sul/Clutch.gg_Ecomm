@@ -172,6 +172,7 @@
   </section>
 
   <!-- footer section -->
+  @include('home.info')
   @include('home.footer')
   <!-- footer section -->
 

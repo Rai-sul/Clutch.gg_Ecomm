@@ -25,28 +25,22 @@
                     <div class="service-card">
                         <a href="{{ url('product_details',$product->id) }}">
                             <img class="service-img" src="{{ asset($product->image) }}" alt="{{ $product->title }}">
-                            <div class="service-content">
-                                <h3>{{ $product->title }}</h3>
-                                <div class="service-meta">
-                                    <div class="service-price">TK.{{ $product->price }}</div>
+                            @if($product->quantity <= 0)
+                                <div class="out-of-stock-overlay">
+                                    <span class="out-of-stock-text">Out of Stock</span>
                                 </div>
-                            </div>
+                            @endif
                         </a>
-                        <div class="service-content">
+                        <div class="service-content"> 
+                            <h3>{{ $product->title }}</h3>
+                            <div class="service-meta">
+                                <span class="service-price">BDT {{ $product->price }}</span>
+                            </div>
+                            
                             @if($product->quantity > 0)
-                                <div class="badge bg-success stock-count" id="stock-{{ $product->id }}">
-                                    In Stock {{ $product->quantity }}
-                                </div>
-                                <button class="add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">
-                                    <i class="fa fa-shopping-cart me-2"></i>Add to Cart
-                                </button>
+                                <button class="add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add To Cart</button>
                             @else
-                                <div class="badge bg-danger stock-count" id="stock-{{ $product->id }}">
-                                    Out of Stock
-                                </div>
-                                <button class="add-to-cart-btn" disabled>
-                                    <i class="fa fa-times me-2"></i>Out of Stock
-                                </button>
+                                <button class="out-of-stock-btn" disabled>Out Of Stock</button>
                             @endif
                         </div>
                     </div> 
