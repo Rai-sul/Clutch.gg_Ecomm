@@ -587,16 +587,55 @@ body {
 }
 
 .stock-count {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-weight: 500;
-    font-size: 0.8rem;
+    display: none;
+    opacity: 0;
     position: absolute;
     top: 10px;
-    right: 10px;
-}
+    left: 10px;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .service-card:hover .stock-count {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Touch device support */
+  @media (hover: none) {
+    .stock-count {
+      display: none !important;
+    }
+
+    .service-card:active .stock-count {
+      display: block !important;
+      opacity: 1;
+    }
+  }
+
+  /* Stock badge colors */
+  .stock-count.bg-success {
+    background-color: rgba(40, 167, 69, 0.9) !important;
+  }
+
+  .stock-count.bg-danger {
+    background-color: rgba(220, 53, 69, 0.9) !important;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .stock-count {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+    }
+  }
 
 .service-content .add-to-cart-btn {
     display: block;

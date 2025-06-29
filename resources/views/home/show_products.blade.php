@@ -26,30 +26,38 @@
             </div>
 
             <div class="services">
-                @foreach ($products as $product)
-                    <div class="service-card">
-                        <a href="{{ url('product_details',$product->id) }}">
-                            <img class="service-img" src="{{ asset($product->image) }}" alt="{{ $product->title }}">
-                            @if($product->quantity <= 0)
-                                <div class="out-of-stock-overlay">
-                                    <span class="out-of-stock-text">Out of Stock</span>
+                    @foreach ($products as $product)
+                        <div class="service-card">
+                            <a href="{{ url('product_details', $product->id) }}">
+                                <img class="service-img" src="{{ asset($product->image) }}" alt="{{ $product->title }}">
+
+                                @if($product->quantity <= 0)
+                                    <div class="out-of-stock-overlay">
+                                        <span class="out-of-stock-text">Out of Stock</span>
+                                    </div>
+                                @endif
+
+                                @if($product->quantity > 0)
+                                    <div class="stock-count badge bg-success" id="stock-{{ $product->id }}">
+                                        {{ $product->quantity }} in stock
+                                    </div>
+                                @endif
+                            </a>
+
+                            <div class="service-content"> 
+                                <h3>{{ $product->title }}</h3>
+                                <div class="service-meta">
+                                    <span class="service-price">BDT {{ $product->price }}</span>
                                 </div>
-                            @endif
-                        </a>
-                        <div class="service-content"> 
-                            <h3>{{ $product->title }}</h3>
-                            <div class="service-meta">
-                                <span class="service-price">BDT {{ $product->price }}</span>
+
+                                @if($product->quantity > 0)
+                                    <button class="add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add To Cart</button>
+                                @else
+                                    <button class="out-of-stock-btn" disabled>Out Of Stock</button>
+                                @endif
                             </div>
-                            
-                            @if($product->quantity > 0)
-                                <button class="add-to-cart-btn" data-product-id="{{ $product->id }}" data-session-id="{{ session()->getId() }}">Add To Cart</button>
-                            @else
-                                <button class="out-of-stock-btn" disabled>Out Of Stock</button>
-                            @endif
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
             </div>
             <!-- ============================================================================================================== -->
         </div>

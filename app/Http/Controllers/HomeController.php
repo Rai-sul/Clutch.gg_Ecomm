@@ -299,7 +299,12 @@ class HomeController extends Controller
         $data->quantity = 1;
         $data->save();
 
-        return response()->json(['status' => 'success', 'message' => 'Product Added To Cart Successfully.']);
+        return response()->json([
+            'status' => 'success', 
+            'message' => 'Product Added To Cart Successfully.',
+            'stock' => $product->quantity,
+            'product_id' => $product_id
+        ]);
     }
 
     public function cart_count()
@@ -486,7 +491,11 @@ class HomeController extends Controller
         $cart->quantity += 1;
         $cart->save();
 
-        return response()->json(['status' => 'success', 'stock' => $product->quantity]);
+        return response()->json([
+            'status' => 'success', 
+            'stock' => $product->quantity,
+            'product_id' => $product->id
+        ]);
     }
     public function decrement(Request $request)
     {
@@ -507,7 +516,11 @@ class HomeController extends Controller
         $cart->quantity -= 1;
         $cart->save();
 
-        return response()->json(['status' => 'success', 'stock' => $product->quantity]);
+        return response()->json([
+            'status' => 'success', 
+            'stock' => $product->quantity,
+            'product_id' => $product->id
+        ]);
     }
 
     public function search(Request $request)
@@ -546,6 +559,7 @@ class HomeController extends Controller
 
         $product = Product::find($cart->product_id);
         $qty = $cart->quantity;
+        $product_id = $cart->product_id;
 
         if ($product) {
             $product->quantity += $qty;
@@ -568,7 +582,9 @@ class HomeController extends Controller
             'status' => 'success',
             'message' => 'Product removed from cart',
             'count' => $cartCount,
-            'total' => $total
+            'total' => $total,
+            'product_id' => $product_id,
+            'stock' => $product ? $product->quantity : 0
         ]);
     }
 }

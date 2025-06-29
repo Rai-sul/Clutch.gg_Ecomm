@@ -1420,6 +1420,11 @@
                                 quantity++;
                                 stock = data.stock;
                                 updateUI();
+                                
+                                // Update all instances of this product on the page
+                                if (typeof updateAllProductInstances === 'function' && data.product_id) {
+                                    updateAllProductInstances(data.product_id, data.stock);
+                                }
                             } else {
                                 alert(data.message);
                             }
@@ -1444,6 +1449,11 @@
                                 quantity--;
                                 stock = data.stock;
                                 updateUI();
+                                
+                                // Update all instances of this product on the page
+                                if (typeof updateAllProductInstances === 'function' && data.product_id) {
+                                    updateAllProductInstances(data.product_id, data.stock);
+                                }
                             } else {
                                 alert(data.message);
                             }
@@ -1484,6 +1494,11 @@
                                 cartCountElements.forEach(el => {
                                     el.textContent = data.count;
                                 });
+                                
+                                // Update all instances of this product on the page
+                                if (typeof updateAllProductInstances === 'function' && data.product_id) {
+                                    updateAllProductInstances(data.product_id, data.stock);
+                                }
                                 
                                 // Remove the row after animation
                                 setTimeout(() => {

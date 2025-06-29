@@ -13,6 +13,56 @@
 
       updateCartCount();
 
+    // Function to update all instances of a product's stock status
+    function updateAllProductInstances(productId, stockLevel) {
+        // Update all stock indicators for this product
+        document.querySelectorAll(`#stock-${productId}`).forEach(stockElement => {
+            if (stockElement) {
+                // Update stock count badge
+                stockElement.textContent = stockLevel > 0 ? `${stockLevel} in stock` : 'Out of stock';
+                stockElement.className = `stock-count badge ${stockLevel > 0 ? 'bg-success' : 'bg-danger'}`;
+            }
+        });
+
+        // Update all add to cart buttons for this product
+        document.querySelectorAll(`.service-card button[data-product-id="${productId}"]`).forEach(button => {
+            if (stockLevel > 0) {
+                button.className = 'add-to-cart-btn';
+                button.disabled = false;
+                button.textContent = 'Add To Cart';
+            } else {
+                button.className = 'out-of-stock-btn';
+                button.disabled = true;
+                button.textContent = 'Out Of Stock';
+            }
+        });
+
+        // Update all product cards' overlay
+        document.querySelectorAll(`.service-card a[href*="product_details/${productId}"]`).forEach(link => {
+            const card = link.closest('.service-card');
+            if (card) {
+                // Check if overlay already exists
+                let overlay = link.querySelector('.out-of-stock-overlay');
+                
+                if (stockLevel === 0 && !overlay) {
+                    // Create overlay if it doesn't exist
+                    overlay = document.createElement('div');
+                    overlay.className = 'out-of-stock-overlay';
+                    
+                    const text = document.createElement('span');
+                    text.className = 'out-of-stock-text';
+                    text.innerText = 'Out of Stock';
+                    
+                    overlay.appendChild(text);
+                    link.appendChild(overlay);
+                } else if (stockLevel > 0 && overlay) {
+                    // Remove overlay if stock is available
+                    overlay.remove();
+                }
+            }
+        });
+    }
+
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -47,39 +97,22 @@
                         return;
                     }
 
-                    // Update stock
-                    let stockElement = document.getElementById(`stock-${productId}`);
-                    if (stockElement) {
-                        let currentStockText = stockElement.innerText.match(/\d+/);
-                        let currentStock = currentStockText ? parseInt(currentStockText[0]) : 0;
-
-                        if (currentStock > 0) {
-                            currentStock -= 1;
-
-                            if (currentStock === 0) {
-                                stockElement.classList.remove('bg-success');
-                                stockElement.classList.add('bg-danger');
-                                stockElement.innerText = `Out of Stock`;
-
-                                let button = document.querySelector(`button[data-product-id="${productId}"]`);
-                                if (button) {
-                                    button.disabled = true;
-                                    button.classList.add('disabled');
-                                    button.innerText = "Out of Stock";
-                                }
-                            } else {
-                                stockElement.innerText = `In Stock ${currentStock}`;
-                            }
-                        }
-                    }
+                    // Update all instances of this product on the page
+                    updateAllProductInstances(data.product_id, data.stock);
                     
                     // Remove loading state
                     this.classList.remove('loading');
-                    this.disabled = false;
-                } else if (data.status === 'exists') {
-                    notyf.success(data.message);
-                    this.classList.remove('loading');
-                    this.disabled = false;
+                    
+                    // If stock is now zero, update this button
+                    if (data.stock === 0) {
+                        this.disabled = true;
+                        this.classList.add('disabled');
+                        this.classList.remove('add-to-cart-btn');
+                        this.classList.add('out-of-stock-btn');
+                        this.innerText = "Out of Stock";
+                    } else {
+                        this.disabled = false;
+                    }
                 } else {
                     notyf.error(data.message);
                     this.classList.remove('loading');

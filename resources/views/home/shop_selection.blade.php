@@ -33,6 +33,9 @@
                                 <span class="out-of-stock-text">Out of Stock</span>
                             </div>
                         @endif
+                        <div class="stock-count badge {{ $product->quantity > 0 ? 'bg-success' : 'bg-danger' }}" id="stock-{{ $product->id }}">
+                            {{ $product->quantity > 0 ? $product->quantity . ' in stock' : 'Out of stock' }}
+                        </div>
                     </a>
                     <div class="service-content"> 
                         <h3>{{ $product->title }}</h3>
