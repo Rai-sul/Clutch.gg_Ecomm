@@ -702,27 +702,27 @@ body {
 
 /* ✅ For all screens ≤ 768px (including 412px) */
 @media (max-width: 768px) {
-    .services, .categories {
+    .services {
         gap: 15px;
         padding: 0 10px;
         justify-content: space-between;
     }
 
-    .service-card, .category-card {
+    .service-card {
         width: calc(50% - 8px); /* Exactly two cards per row with gap */
         min-height: 320px;
         margin-bottom: 15px;
     }
 
-    .service-img, .category-img {
+    .service-img {
         height: 160px;
     }
 
-    .service-content, .category-content {
+    .service-content {
         padding: 10px;
     }
 
-    .service-content h3, .category-content h3 {
+    .service-content h3 {
         font-size: 0.9rem;
         height: 2.4rem;
         margin-bottom: 8px;
@@ -751,19 +751,12 @@ body {
 
 /* For extra small screens */
 @media (max-width: 480px) and (min-width: 360px) {
-    .service-card, .category-card {
+    .service-card {
         min-height: 300px;
     }
     
-    .service-img, .category-img {
+    .service-img {
         height: 130px;
-    }
-}
-
-/* For extra small screens */
-@media (max-width: 480px) {
-    .category-card {
-        width: calc(50% - 5px); /* Ensure two cards per row */
     }
 }
 </style>  
@@ -833,28 +826,35 @@ body {
     color: #f05454;
   }
 
-  /* --- Mobile Media Query for Category Card (Samsung Galaxy A51/A71, 360-412px) --- */
-  @media (min-width: 360px) and (max-width: 850px) {
-    .services, .categories {
-      gap: 10px;
+  /* --- Consolidated Mobile Media Query for Category Cards --- */
+  @media (max-width: 991px) {
+    .categories {
+      gap: 15px;
       padding: 0 10px;
       justify-content: space-between;
     }
     
-    .service-card, .category-card {
-      width: calc(50% - 5px); /* Exactly two cards per row with smaller gap */
+    .category-card {
+      width: calc(50% - 8px); /* Exactly two cards per row with gap */
       min-width: unset;
       max-width: unset;
-      min-height: 200px;
+      min-height: 220px;
       margin-bottom: 15px;
     }
     
-    .service-img, .category-img {
-      height: 140px;
+    .category-img {
+      height: 160px;
+      width: 100%;
+      object-fit: cover;
     }
     
     .category-content {
       padding: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
     }
     
     .category-content h3 {
@@ -864,7 +864,7 @@ body {
   }
 
   /* Additional iPad and tablet specific styles */
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 991px) {
     .category-card {
       width: 31%;
       min-height: 200px;
@@ -877,19 +877,17 @@ body {
 
   /* iPhone SE and smaller devices */
   @media (max-width: 359px) {
-    .services, .categories {
+    .categories {
         gap: 8px;
         padding: 0 8px;
-        justify-content: space-between;
     }
     
-    .service-card, .category-card {
+    .category-card {
         width: calc(50% - 4px); /* Exactly two cards per row with even smaller gap */
         min-height: 180px;
-        margin-bottom: 12px;
     }
     
-    .service-img, .category-img {
+    .category-img {
         height: 110px;
     }
     
@@ -2181,7 +2179,7 @@ body {
        only screen and (device-width: 390px) and (device-height: 844px) {
   
   /* Force 2 cards per row */
-  .services, .categories {
+  .services {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: space-between !important;
@@ -2189,7 +2187,7 @@ body {
     padding: 0 5px !important;
   }
   
-  .service-card, .category-card {
+  .service-card {
     width: 48% !important;
     min-width: 0 !important;
     max-width: 48% !important;
@@ -2202,13 +2200,13 @@ body {
     flex-direction: column !important;
   }
   
-  .service-img, .category-img {
+  .service-img {
     height: 130px !important;
     width: 100% !important;
     object-fit: cover !important;
   }
   
-  .service-content, .category-content {
+  .service-content {
     padding: 10px !important;
     display: flex !important;
     flex-direction: column !important;
@@ -2216,18 +2214,17 @@ body {
     flex-grow: 1 !important;
   }
   
-  .service-content h3, .category-content h3 {
+  .service-content h3 {
     font-size: 0.95rem !important;
     margin-bottom: 6px !important;
     line-height: 1.3 !important;
   }
   
-  .service-price, .category-content p {
+  .service-price {
     font-size: 0.9rem !important;
     margin-bottom: 8px !important;
   }
   
-  .category-content .btn.btn-outline, 
   .service-content .add-to-cart-btn {
     margin-top: auto !important;
     padding: 6px 12px !important;
@@ -2240,31 +2237,31 @@ body {
 /* Comprehensive Mobile Media Query - Ensures Two Cards Per Row */
 @media (max-width: 991px) {
   /* Container spacing */
-  .services, .categories {
+  .services {
     gap: 12px;
     padding: 0 10px;
     justify-content: space-between;
   }
   
   /* Card sizing - exactly two per row */
-  .service-card, .category-card {
+  .service-card {
     width: calc(50% - 6px);
     margin-bottom: 15px;
     min-height: 350px;
   }
   
   /* Image height */
-  .service-img, .category-img {
+  .service-img {
     height: 140px;
   }
   
   /* Content padding */
-  .service-content, .category-content {
+  .service-content {
     padding: 12px;
   }
   
   /* Typography */
-  .service-content h3, .category-content h3 {
+  .service-content h3 {
     font-size: 0.95rem;
     height: 2.4rem;
     margin-bottom: 8px;
@@ -2279,50 +2276,50 @@ body {
   
   /* Extra small screens */
   @media (max-width: 480px) {
-    .services, .categories {
+    .services {
       gap: 10px;
     }
     
-    .service-card, .category-card {
+    .service-card {
       width: calc(50% - 5px);
       min-height: 330px;
     }
     
-    .service-img, .category-img {
+    .service-img {
       height: 130px;
     }
     
-    .service-content, .category-content {
+    .service-content {
       padding: 10px;
     }
   }
   
   /* Very small screens */
   @media (max-width: 359px) {
-    .services, .categories {
+    .services {
       gap: 8px;
     }
     
-    .service-card, .category-card {
+    .service-card {
       width: calc(50% - 4px);
       min-height: 320px;
     }
     
-    .service-img, .category-img {
+    .service-img {
       height: 110px;
     }
     
-    .service-content h3, .category-content h3 {
+    .service-content h3 {
       font-size: 0.85rem;
       height: 2.2rem;
     }
     
-    .service-price, .category-content p {
+    .service-price {
       font-size: 0.85rem;
       margin-bottom: 8px;
     }
     
-    .btn.btn-outline, .add-to-cart-btn {
+    .add-to-cart-btn {
       font-size: 0.8rem;
       padding: 6px 10px;
     }
